@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lingzhi.crm.customer.mapper.CustomerStatusMapper">
+    
+    <resultMap type="CustomerStatus" id="CustomerStatusResult">
+        <result property="id"    column="id"    />
+        <result property="statusName"    column="status_name"    />
+        <result property="isDelete"    column="is_delete"    />
+        <result property="createdUserName"    column="created_user_name"    />
+        <result property="createdUserAccount"    column="created_user_account"    />
+        <result property="createdTime"    column="created_time"    />
+        <result property="updatedUserName"    column="updated_user_name"    />
+        <result property="updatedUserAccount"    column="updated_user_account"    />
+        <result property="updatedTime"    column="updated_time"    />
+        <result property="tenantId"    column="tenant_id"    />
+    </resultMap>
+
+    <sql id="selectCustomerStatusVo">
+        select id, status_name, is_delete, created_user_name, created_user_account, created_time, updated_user_name, updated_user_account, updated_time, tenant_id from customer_status
+    </sql>
+
+    <select id="selectCustomerStatusList" parameterType="CustomerStatus" resultMap="CustomerStatusResult">
+        <include refid="selectCustomerStatusVo"/>
+        <where>  
+            <if test="statusName != null  and statusName != ''"> and status_name like concat('%', #{statusName}, '%')</if>
+            <if test="isDelete != null "> and is_delete = #{isDelete}</if>
+            <if test="createdUserName != null  and createdUserName != ''"> and created_user_name like concat('%', #{createdUserName}, '%')</if>
+            <if test="createdUserAccount != null  and createdUserAccount != ''"> and created_user_account = #{createdUserAccount}</if>
+            <if test="createdTime != null "> and created_time = #{createdTime}</if>
+            <if test="updatedUserName != null  and updatedUserName != ''"> and updated_user_name like concat('%', #{updatedUserName}, '%')</if>
+            <if test="updatedUserAccount != null  and updatedUserAccount != ''"> and updated_user_account = #{updatedUserAccount}</if>
+            <if test="updatedTime != null "> and updated_time = #{updatedTime}</if>
+            <if test="tenantId != null "> and tenant_id = #{tenantId}</if>
+        </where>
+    </select>
+    
+    <select id="selectCustomerStatusById" parameterType="Long" resultMap="CustomerStatusResult">
+        <include refid="selectCustomerStatusVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertCustomerStatus" parameterType="CustomerStatus" useGeneratedKeys="true" keyProperty="id">
+        insert into customer_status
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="statusName != null">status_name,</if>
+            <if test="isDelete != null">is_delete,</if>
+            <if test="createdUserName != null">created_user_name,</if>
+            <if test="createdUserAccount != null">created_user_account,</if>
+            <if test="createdTime != null">created_time,</if>
+            <if test="updatedUserName != null">updated_user_name,</if>
+            <if test="updatedUserAccount != null">updated_user_account,</if>
+            <if test="updatedTime != null">updated_time,</if>
+            <if test="tenantId != null">tenant_id,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="statusName != null">#{statusName},</if>
+            <if test="isDelete != null">#{isDelete},</if>
+            <if test="createdUserName != null">#{createdUserName},</if>
+            <if test="createdUserAccount != null">#{createdUserAccount},</if>
+            <if test="createdTime != null">#{createdTime},</if>
+            <if test="updatedUserName != null">#{updatedUserName},</if>
+            <if test="updatedUserAccount != null">#{updatedUserAccount},</if>
+            <if test="updatedTime != null">#{updatedTime},</if>
+            <if test="tenantId != null">#{tenantId},</if>
+         </trim>
+    </insert>
+
+    <update id="updateCustomerStatus" parameterType="CustomerStatus">
+        update customer_status
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="statusName != null">status_name = #{statusName},</if>
+            <if test="isDelete != null">is_delete = #{isDelete},</if>
+            <if test="createdUserName != null">created_user_name = #{createdUserName},</if>
+            <if test="createdUserAccount != null">created_user_account = #{createdUserAccount},</if>
+            <if test="createdTime != null">created_time = #{createdTime},</if>
+            <if test="updatedUserName != null">updated_user_name = #{updatedUserName},</if>
+            <if test="updatedUserAccount != null">updated_user_account = #{updatedUserAccount},</if>
+            <if test="updatedTime != null">updated_time = #{updatedTime},</if>
+            <if test="tenantId != null">tenant_id = #{tenantId},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteCustomerStatusById" parameterType="Long">
+        delete from customer_status where id = #{id}
+    </delete>
+
+    <delete id="deleteCustomerStatusByIds" parameterType="String">
+        delete from customer_status where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

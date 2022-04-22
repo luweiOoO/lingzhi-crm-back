@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lingzhi.crm.customer.mapper.CustomerGroupMapper">
+    
+    <resultMap type="CustomerGroup" id="CustomerGroupResult">
+        <result property="id"    column="id"    />
+        <result property="groupName"    column="group_name"    />
+        <result property="pGroupId"    column="p_group_id"    />
+        <result property="gourpLevel"    column="gourp_level"    />
+        <result property="createdUserName"    column="created_user_name"    />
+        <result property="createdUserAccount"    column="created_user_account"    />
+        <result property="createdTime"    column="created_time"    />
+        <result property="updatedUserName"    column="updated_user_name"    />
+        <result property="updatedUserAccount"    column="updated_user_account"    />
+        <result property="updatedTime"    column="updated_time"    />
+        <result property="isDelete"    column="is_delete"    />
+        <result property="tenantId"    column="tenant_id"    />
+    </resultMap>
+
+    <sql id="selectCustomerGroupVo">
+        select id, group_name, p_group_id, gourp_level, created_user_name, created_user_account, created_time, updated_user_name, updated_user_account, updated_time, is_delete, tenant_id from customer_group
+    </sql>
+
+    <select id="selectCustomerGroupList" parameterType="CustomerGroup" resultMap="CustomerGroupResult">
+        <include refid="selectCustomerGroupVo"/>
+        <where>  
+            <if test="groupName != null  and groupName != ''"> and group_name like concat('%', #{groupName}, '%')</if>
+            <if test="pGroupId != null "> and p_group_id = #{pGroupId}</if>
+            <if test="gourpLevel != null "> and gourp_level = #{gourpLevel}</if>
+            <if test="createdUserName != null  and createdUserName != ''"> and created_user_name like concat('%', #{createdUserName}, '%')</if>
+            <if test="createdUserAccount != null  and createdUserAccount != ''"> and created_user_account = #{createdUserAccount}</if>
+            <if test="createdTime != null "> and created_time = #{createdTime}</if>
+            <if test="updatedUserName != null  and updatedUserName != ''"> and updated_user_name like concat('%', #{updatedUserName}, '%')</if>
+            <if test="updatedUserAccount != null  and updatedUserAccount != ''"> and updated_user_account = #{updatedUserAccount}</if>
+            <if test="updatedTime != null "> and updated_time = #{updatedTime}</if>
+            <if test="isDelete != null "> and is_delete = #{isDelete}</if>
+            <if test="tenantId != null "> and tenant_id = #{tenantId}</if>
+        </where>
+    </select>
+    
+    <select id="selectCustomerGroupById" parameterType="Long" resultMap="CustomerGroupResult">
+        <include refid="selectCustomerGroupVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertCustomerGroup" parameterType="CustomerGroup" useGeneratedKeys="true" keyProperty="id">
+        insert into customer_group
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="groupName != null">group_name,</if>
+            <if test="pGroupId != null">p_group_id,</if>
+            <if test="gourpLevel != null">gourp_level,</if>
+            <if test="createdUserName != null">created_user_name,</if>
+            <if test="createdUserAccount != null">created_user_account,</if>
+            <if test="createdTime != null">created_time,</if>
+            <if test="updatedUserName != null">updated_user_name,</if>
+            <if test="updatedUserAccount != null">updated_user_account,</if>
+            <if test="updatedTime != null">updated_time,</if>
+            <if test="isDelete != null">is_delete,</if>
+            <if test="tenantId != null">tenant_id,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="groupName != null">#{groupName},</if>
+            <if test="pGroupId != null">#{pGroupId},</if>
+            <if test="gourpLevel != null">#{gourpLevel},</if>
+            <if test="createdUserName != null">#{createdUserName},</if>
+            <if test="createdUserAccount != null">#{createdUserAccount},</if>
+            <if test="createdTime != null">#{createdTime},</if>
+            <if test="updatedUserName != null">#{updatedUserName},</if>
+            <if test="updatedUserAccount != null">#{updatedUserAccount},</if>
+            <if test="updatedTime != null">#{updatedTime},</if>
+            <if test="isDelete != null">#{isDelete},</if>
+            <if test="tenantId != null">#{tenantId},</if>
+         </trim>
+    </insert>
+
+    <update id="updateCustomerGroup" parameterType="CustomerGroup">
+        update customer_group
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="groupName != null">group_name = #{groupName},</if>
+            <if test="pGroupId != null">p_group_id = #{pGroupId},</if>
+            <if test="gourpLevel != null">gourp_level = #{gourpLevel},</if>
+            <if test="createdUserName != null">created_user_name = #{createdUserName},</if>
+            <if test="createdUserAccount != null">created_user_account = #{createdUserAccount},</if>
+            <if test="createdTime != null">created_time = #{createdTime},</if>
+            <if test="updatedUserName != null">updated_user_name = #{updatedUserName},</if>
+            <if test="updatedUserAccount != null">updated_user_account = #{updatedUserAccount},</if>
+            <if test="updatedTime != null">updated_time = #{updatedTime},</if>
+            <if test="isDelete != null">is_delete = #{isDelete},</if>
+            <if test="tenantId != null">tenant_id = #{tenantId},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteCustomerGroupById" parameterType="Long">
+        delete from customer_group where id = #{id}
+    </delete>
+
+    <delete id="deleteCustomerGroupByIds" parameterType="String">
+        delete from customer_group where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

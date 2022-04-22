@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lingzhi.crm.customer.mapper.CustomerCompanyProductRelationMapper">
+    
+    <resultMap type="CustomerCompanyProductRelation" id="CustomerCompanyProductRelationResult">
+        <result property="id"    column="id"    />
+        <result property="companyId"    column="company_id"    />
+        <result property="productId"    column="product_id"    />
+    </resultMap>
+
+    <sql id="selectCustomerCompanyProductRelationVo">
+        select id, company_id, product_id from customer_company_product_relation
+    </sql>
+
+    <select id="selectCustomerCompanyProductRelationList" parameterType="CustomerCompanyProductRelation" resultMap="CustomerCompanyProductRelationResult">
+        <include refid="selectCustomerCompanyProductRelationVo"/>
+        <where>  
+            <if test="companyId != null "> and company_id = #{companyId}</if>
+            <if test="productId != null "> and product_id = #{productId}</if>
+        </where>
+    </select>
+    
+    <select id="selectCustomerCompanyProductRelationById" parameterType="Long" resultMap="CustomerCompanyProductRelationResult">
+        <include refid="selectCustomerCompanyProductRelationVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertCustomerCompanyProductRelation" parameterType="CustomerCompanyProductRelation" useGeneratedKeys="true" keyProperty="id">
+        insert into customer_company_product_relation
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="companyId != null">company_id,</if>
+            <if test="productId != null">product_id,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="companyId != null">#{companyId},</if>
+            <if test="productId != null">#{productId},</if>
+         </trim>
+    </insert>
+
+    <update id="updateCustomerCompanyProductRelation" parameterType="CustomerCompanyProductRelation">
+        update customer_company_product_relation
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="companyId != null">company_id = #{companyId},</if>
+            <if test="productId != null">product_id = #{productId},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteCustomerCompanyProductRelationById" parameterType="Long">
+        delete from customer_company_product_relation where id = #{id}
+    </delete>
+
+    <delete id="deleteCustomerCompanyProductRelationByIds" parameterType="String">
+        delete from customer_company_product_relation where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+    <delete id="delProductByCompanyId" parameterType="long">
+        delete from customer_company_product_relation where company_id = #{companyId}
+    </delete>
+
+    <insert id="addCompanyProductRelationByCompanyAndProducts">
+        insert into customer_company_product_relation (company_id,product_id)
+        values
+        <foreach collection="productIdList" item="productId" index="index" separator=",">
+            (#{companyId}, #{productId})
+        </foreach>
+    </insert>
+
+    <select id="getProductIdListByCompanyId" parameterType="long" resultType="long">
+        select r.product_id from customer_company_product_relation as r
+        where r.company_id = #{companyId}
+    </select>
+</mapper>

@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lingzhi.crm.customer.mapper.CustomerCompanyContactsMapper">
+    
+    <resultMap type="CustomerCompanyContacts" id="CustomerCompanyContactsResult">
+        <result property="id"    column="id"    />
+        <result property="customerCompanyId"    column="customer_company_id"    />
+        <result property="contactNickName"    column="contact_nick_name"    />
+        <result property="contactEmail"    column="contact_email"    />
+        <result property="contactRankKey"    column="contact_rank_key"    />
+        <result property="contactPosition"    column="contact_position"    />
+        <result property="contactBirthday"    column="contact_birthday"    />
+        <result property="contactGenderKey"    column="contact_gender_key"    />
+        <result property="remarks"    column="remarks"    />
+        <result property="imageUrl"    column="image_url"    />
+        <result property="contactAddress"    column="contact_address"    />
+        <result property="contactEamilPhone"    column="contact_eamil_phone"    />
+        <result property="createdUserName"    column="created_user_name"    />
+        <result property="createdUserAccount"    column="created_user_account"    />
+        <result property="createdTime"    column="created_time"    />
+        <result property="updatedUserName"    column="updated_user_name"    />
+        <result property="updatedUserAccount"    column="updated_user_account"    />
+        <result property="updatedTime"    column="updated_time"    />
+        <result property="isDelete"    column="is_delete"    />
+        <result property="tenantId"    column="tenant_id"    />
+    </resultMap>
+
+    <sql id="selectCustomerCompanyContactsVo">
+        select id, customer_company_id, contact_nick_name, contact_email, contact_rank_key, contact_position, contact_birthday, contact_gender_key, remarks, image_url, contact_address, contact_eamil_phone, created_user_name, created_user_account, created_time, updated_user_name, updated_user_account, updated_time, is_delete, tenant_id from customer_company_contacts
+    </sql>
+
+    <select id="selectCustomerCompanyContactsList" parameterType="CustomerCompanyContacts" resultMap="CustomerCompanyContactsResult">
+        <include refid="selectCustomerCompanyContactsVo"/>
+        <where>
+            is_delete = '0'
+            <if test="customerCompanyId != null "> and customer_company_id = #{customerCompanyId}</if>
+            <if test="contactNickName != null  and contactNickName != ''"> and contact_nick_name like concat('%', #{contactNickName}, '%')</if>
+            <if test="contactEmail != null  and contactEmail != ''"> and contact_email = #{contactEmail}</if>
+            <if test="contactRankKey != null  and contactRankKey != ''"> and contact_rank_key = #{contactRankKey}</if>
+            <if test="contactPosition != null  and contactPosition != ''"> and contact_position = #{contactPosition}</if>
+            <if test="contactBirthday != null "> and contact_birthday = #{contactBirthday}</if>
+            <if test="contactGenderKey != null  and contactGenderKey != ''"> and contact_gender_key = #{contactGenderKey}</if>
+            <if test="remarks != null  and remarks != ''"> and remarks = #{remarks}</if>
+            <if test="imageUrl != null  and imageUrl != ''"> and image_url = #{imageUrl}</if>
+            <if test="contactAddress != null  and contactAddress != ''"> and contact_address = #{contactAddress}</if>
+            <if test="contactEamilPhone != null  and contactEamilPhone != ''"> and contact_eamil_phone = #{contactEamilPhone}</if>
+            <if test="createdUserName != null  and createdUserName != ''"> and created_user_name like concat('%', #{createdUserName}, '%')</if>
+            <if test="createdUserAccount != null  and createdUserAccount != ''"> and created_user_account = #{createdUserAccount}</if>
+            <if test="createdTime != null "> and created_time = #{createdTime}</if>
+            <if test="updatedUserName != null  and updatedUserName != ''"> and updated_user_name like concat('%', #{updatedUserName}, '%')</if>
+            <if test="updatedUserAccount != null  and updatedUserAccount != ''"> and updated_user_account = #{updatedUserAccount}</if>
+            <if test="updatedTime != null "> and updated_time = #{updatedTime}</if>
+            <if test="tenantId != null "> and tenant_id = #{tenantId}</if>
+        </where>
+    </select>
+    
+    <select id="selectCustomerCompanyContactsById" parameterType="Long" resultMap="CustomerCompanyContactsResult">
+        <include refid="selectCustomerCompanyContactsVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertCustomerCompanyContacts" parameterType="CustomerCompanyContacts" useGeneratedKeys="true" keyProperty="id">
+        insert into customer_company_contacts
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="customerCompanyId != null">customer_company_id,</if>
+            <if test="contactNickName != null">contact_nick_name,</if>
+            <if test="contactEmail != null">contact_email,</if>
+            <if test="contactRankKey != null">contact_rank_key,</if>
+            <if test="contactPosition != null">contact_position,</if>
+            <if test="contactBirthday != null">contact_birthday,</if>
+            <if test="contactGenderKey != null">contact_gender_key,</if>
+            <if test="remarks != null">remarks,</if>
+            <if test="imageUrl != null">image_url,</if>
+            <if test="contactAddress != null">contact_address,</if>
+            <if test="contactEamilPhone != null">contact_eamil_phone,</if>
+            <if test="createdUserName != null">created_user_name,</if>
+            <if test="createdUserAccount != null">created_user_account,</if>
+            <if test="createdTime != null">created_time,</if>
+            <if test="updatedUserName != null">updated_user_name,</if>
+            <if test="updatedUserAccount != null">updated_user_account,</if>
+            <if test="updatedTime != null">updated_time,</if>
+            <if test="isDelete != null">is_delete,</if>
+            <if test="tenantId != null">tenant_id,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="customerCompanyId != null">#{customerCompanyId},</if>
+            <if test="contactNickName != null">#{contactNickName},</if>
+            <if test="contactEmail != null">#{contactEmail},</if>
+            <if test="contactRankKey != null">#{contactRankKey},</if>
+            <if test="contactPosition != null">#{contactPosition},</if>
+            <if test="contactBirthday != null">#{contactBirthday},</if>
+            <if test="contactGenderKey != null">#{contactGenderKey},</if>
+            <if test="remarks != null">#{remarks},</if>
+            <if test="imageUrl != null">#{imageUrl},</if>
+            <if test="contactAddress != null">#{contactAddress},</if>
+            <if test="contactEamilPhone != null">#{contactEamilPhone},</if>
+            <if test="createdUserName != null">#{createdUserName},</if>
+            <if test="createdUserAccount != null">#{createdUserAccount},</if>
+            <if test="createdTime != null">#{createdTime},</if>
+            <if test="updatedUserName != null">#{updatedUserName},</if>
+            <if test="updatedUserAccount != null">#{updatedUserAccount},</if>
+            <if test="updatedTime != null">#{updatedTime},</if>
+            <if test="isDelete != null">#{isDelete},</if>
+            <if test="tenantId != null">#{tenantId},</if>
+         </trim>
+    </insert>
+
+    <update id="updateCustomerCompanyContacts" parameterType="CustomerCompanyContacts">
+        update customer_company_contacts
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="customerCompanyId != null">customer_company_id = #{customerCompanyId},</if>
+            <if test="contactNickName != null">contact_nick_name = #{contactNickName},</if>
+            <if test="contactEmail != null">contact_email = #{contactEmail},</if>
+            <if test="contactRankKey != null">contact_rank_key = #{contactRankKey},</if>
+            <if test="contactPosition != null">contact_position = #{contactPosition},</if>
+            <if test="contactBirthday != null">contact_birthday = #{contactBirthday},</if>
+            <if test="contactGenderKey != null">contact_gender_key = #{contactGenderKey},</if>
+            <if test="remarks != null">remarks = #{remarks},</if>
+            <if test="imageUrl != null">image_url = #{imageUrl},</if>
+            <if test="contactAddress != null">contact_address = #{contactAddress},</if>
+            <if test="contactEamilPhone != null">contact_eamil_phone = #{contactEamilPhone},</if>
+            <if test="createdUserName != null">created_user_name = #{createdUserName},</if>
+            <if test="createdUserAccount != null">created_user_account = #{createdUserAccount},</if>
+            <if test="createdTime != null">created_time = #{createdTime},</if>
+            <if test="updatedUserName != null">updated_user_name = #{updatedUserName},</if>
+            <if test="updatedUserAccount != null">updated_user_account = #{updatedUserAccount},</if>
+            <if test="updatedTime != null">updated_time = #{updatedTime},</if>
+            <if test="isDelete != null">is_delete = #{isDelete},</if>
+            <if test="tenantId != null">tenant_id = #{tenantId},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteCustomerCompanyContactsById" parameterType="Long">
+        delete from customer_company_contacts where id = #{id}
+    </delete>
+
+    <update id="deleteCustomerCompanyContactsByIds" parameterType="String">
+        update customer_company_contacts set is_delete = '1' where id in
+        <foreach item="id" collection="list" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </update>
+
+    <select id="getContactsDetailByCompanyId" resultType="com.lingzhi.crm.customer.vo.CompanyCustomerContactsDetailOutVO" parameterType="long">
+        select ccc.id as id,ccc.customer_company_id as customerCompanyId,ccc.contact_nick_name as contactNickName,ccc.contact_email as contactEmail,
+               ccc.contact_rank_key as contactRankKey,ccc.contact_position as contactPosition,ccc.contact_birthday as contactBirthday,
+               ccc.contact_gender_key as contactGenderKey,ccc.remarks as remarks,ccc.image_url as imageUrl,ccc.contact_address as contactAddress,
+               ccc.contact_eamil_phone as contact_eamil_phone,ccc.created_user_name as createdUserName,ccc.created_user_account as createdUserAccount,
+               ccc.created_time as createdTime,ccc.updated_user_name as updatedUserName,ccc.updated_user_account as updatedUserAccount,ccc.updated_time as updatedTime
+        from customer_company_contacts as ccc
+        where ccc.customer_company_id = #{companyId}
+    </select>
+
+    <select id="selectContactIdListByCustomerIdList" parameterType="list" resultType="long">
+        select id from customer_company_contacts where customer_company_id in
+        <foreach item="id" collection="list" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </select>
+</mapper>

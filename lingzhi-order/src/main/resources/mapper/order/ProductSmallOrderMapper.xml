@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lingzhi.crm.order.mapper.ProductSmallOrderMapper">
+    
+    <resultMap type="com.lingzhi.crm.order.domin.ProductSmallOrder" id="ProductSmallOrderResult">
+        <result property="id"    column="id"    />
+        <result property="orderNo"    column="order_no"    />
+        <result property="orderDate"    column="order_date"    />
+        <result property="planDeliveryDate"    column="plan_delivery_date"    />
+        <result property="customerCountry"    column="customer_country"    />
+        <result property="customerName"    column="customer_name"    />
+        <result property="arrivalMoneyPercent"    column="arrival_money_percent"    />
+        <result property="goodsAmountPriceDollar"    column="goods_amount_price_dollar"    />
+        <result property="goodsAmountPriceRmb"    column="goods_amount_price_rmb"    />
+        <result property="dollarRmbExchangeRate"    column="dollar_rmb_exchange_rate"    />
+        <result property="paymentChannel"    column="payment_channel"    />
+        <result property="paymentServiceCharge"    column="payment_service_charge"    />
+        <result property="alibabaOrderNo"    column="alibaba_order_no"    />
+        <result property="expressCategory"    column="express_category"    />
+        <result property="orderQualityRequire"    column="order_quality_require"    />
+        <result property="orderPackageRequire"    column="order_package_require"    />
+        <result property="orderDeliveryDateRequire"    column="order_delivery_date_require"    />
+        <result property="orderSalesId"    column="order_sales_id"    />
+        <result property="orderSalesName"    column="order_sales_name"    />
+        <result property="waybillNos"    column="waybill_nos"    />
+        <result property="waybillFare"    column="waybill_fare"    />
+        <result property="createId"    column="create_id"    />
+        <result property="createName"    column="create_name"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateId"    column="update_id"    />
+        <result property="updateName"    column="update_name"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="remark"    column="remark"    />
+        <result property="delFlag"    column="del_flag"    />
+    </resultMap>
+
+    <sql id="selectProductSmallOrderVo">
+        select id, order_no, order_date, plan_delivery_date, customer_country, customer_name, arrival_money_percent, goods_amount_price_dollar, goods_amount_price_rmb, dollar_rmb_exchange_rate, payment_channel, payment_service_charge, alibaba_order_no, express_category, order_quality_require, order_package_require, order_delivery_date_require, order_sales_id, order_sales_name, waybill_nos, waybill_fare, create_id, create_name, create_time, update_id, update_name, update_time, remark, del_flag from product_small_order
+    </sql>
+
+    <select id="selectProductSmallOrderList" parameterType="com.lingzhi.crm.order.dto.SmallOrderSearchParamsDto" resultMap="ProductSmallOrderResult">
+        <include refid="selectProductSmallOrderVo"/>
+        <where>  
+            <if test="orderNo != null  and orderNo != ''"> and order_no = #{orderNo}</if>
+            <if test="orderDate != null "> and order_date = #{orderDate}</if>
+            <if test="startOrderDate != null">and order_date &gt;= #{startOrderDate}</if>
+            <if test="endOrderDate != null">and order_date &lt;= #{endOrderDate}</if>
+            <if test="planDeliveryDate != null "> and plan_delivery_date = #{planDeliveryDate}</if>
+            <if test="startPlanDeliveryDate != null">and plan_delivery_date &gt;= #{startPlanDeliveryDate}</if>
+            <if test="endPlanDeliveryDate != null">and plan_delivery_date &lt;= #{endPlanDeliveryDate}</if>
+            <if test="customerCountry != null  and customerCountry != ''"> and customer_country = #{customerCountry}</if>
+            <if test="customerName != null  and customerName != ''"> and customer_name like concat('%', #{customerName}, '%')</if>
+            <if test="arrivalMoneyPercent != null "> and arrival_money_percent = #{arrivalMoneyPercent}</if>
+            <if test="goodsAmountPriceDollar != null "> and goods_amount_price_dollar = #{goodsAmountPriceDollar}</if>
+            <if test="goodsAmountPriceRmb != null "> and goods_amount_price_rmb = #{goodsAmountPriceRmb}</if>
+            <if test="dollarRmbExchangeRate != null "> and dollar_rmb_exchange_rate = #{dollarRmbExchangeRate}</if>
+            <if test="paymentChannel != null  and paymentChannel != ''"> and payment_channel = #{paymentChannel}</if>
+            <if test="paymentServiceCharge != null "> and payment_service_charge = #{paymentServiceCharge}</if>
+            <if test="alibabaOrderNo != null  and alibabaOrderNo != ''"> and alibaba_order_no = #{alibabaOrderNo}</if>
+            <if test="expressCategory != null  and expressCategory != ''"> and express_category = #{expressCategory}</if>
+            <if test="orderQualityRequire != null  and orderQualityRequire != ''"> and order_quality_require = #{orderQualityRequire}</if>
+            <if test="orderPackageRequire != null  and orderPackageRequire != ''"> and order_package_require = #{orderPackageRequire}</if>
+            <if test="orderDeliveryDateRequire != null  and orderDeliveryDateRequire != ''"> and order_delivery_date_require = #{orderDeliveryDateRequire}</if>
+            <if test="orderSalesId != null "> and order_sales_id = #{orderSalesId}</if>
+            <if test="orderSalesName != null  and orderSalesName != ''"> and order_sales_name like concat('%', #{orderSalesName}, '%')</if>
+            <if test="waybillNos != null  and waybillNos != ''"> and waybill_nos = #{waybillNos}</if>
+            <if test="waybillFare != null">and waybill_fare = #{waybillFare}</if>
+            <if test="createId != null "> and create_id = #{createId}</if>
+            <if test="createName != null  and createName != ''"> and create_name like concat('%', #{createName}, '%')</if>
+            <if test="updateId != null "> and update_id = #{updateId}</if>
+            <if test="updateName != null  and updateName != ''"> and update_name like concat('%', #{updateName}, '%')</if>
+        </where>
+    </select>
+    
+    <select id="selectProductSmallOrderById" parameterType="Long" resultMap="ProductSmallOrderResult">
+        <include refid="selectProductSmallOrderVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertProductSmallOrder" parameterType="com.lingzhi.crm.order.domin.ProductSmallOrder" useGeneratedKeys="true" keyProperty="id">
+        insert into product_small_order
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="orderNo != null">order_no,</if>
+            <if test="orderDate != null">order_date,</if>
+            <if test="planDeliveryDate != null">plan_delivery_date,</if>
+            <if test="customerCountry != null">customer_country,</if>
+            <if test="customerName != null">customer_name,</if>
+            <if test="arrivalMoneyPercent != null">arrival_money_percent,</if>
+            <if test="goodsAmountPriceDollar != null">goods_amount_price_dollar,</if>
+            <if test="goodsAmountPriceRmb != null">goods_amount_price_rmb,</if>
+            <if test="dollarRmbExchangeRate != null">dollar_rmb_exchange_rate,</if>
+            <if test="paymentChannel != null">payment_channel,</if>
+            <if test="paymentServiceCharge != null">payment_service_charge,</if>
+            <if test="alibabaOrderNo != null">alibaba_order_no,</if>
+            <if test="expressCategory != null">express_category,</if>
+            <if test="orderQualityRequire != null">order_quality_require,</if>
+            <if test="orderPackageRequire != null">order_package_require,</if>
+            <if test="orderDeliveryDateRequire != null">order_delivery_date_require,</if>
+            <if test="orderSalesId != null">order_sales_id,</if>
+            <if test="orderSalesName != null">order_sales_name,</if>
+            <if test="waybillNos != null">waybill_nos,</if>
+            <if test="waybillFare != null">waybill_fare,</if>
+            <if test="createId != null">create_id,</if>
+            <if test="createName != null">create_name,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateId != null">update_id,</if>
+            <if test="updateName != null">update_name,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="remark != null">remark,</if>
+            <if test="delFlag != null">del_flag,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="orderNo != null">#{orderNo},</if>
+            <if test="orderDate != null">#{orderDate},</if>
+            <if test="planDeliveryDate != null">#{planDeliveryDate},</if>
+            <if test="customerCountry != null">#{customerCountry},</if>
+            <if test="customerName != null">#{customerName},</if>
+            <if test="arrivalMoneyPercent != null">#{arrivalMoneyPercent},</if>
+            <if test="goodsAmountPriceDollar != null">#{goodsAmountPriceDollar},</if>
+            <if test="goodsAmountPriceRmb != null">#{goodsAmountPriceRmb},</if>
+            <if test="dollarRmbExchangeRate != null">#{dollarRmbExchangeRate},</if>
+            <if test="paymentChannel != null">#{paymentChannel},</if>
+            <if test="paymentServiceCharge != null">#{paymentServiceCharge},</if>
+            <if test="alibabaOrderNo != null">#{alibabaOrderNo},</if>
+            <if test="expressCategory != null">#{expressCategory},</if>
+            <if test="orderQualityRequire != null">#{orderQualityRequire},</if>
+            <if test="orderPackageRequire != null">#{orderPackageRequire},</if>
+            <if test="orderDeliveryDateRequire != null">#{orderDeliveryDateRequire},</if>
+            <if test="orderSalesId != null">#{orderSalesId},</if>
+            <if test="orderSalesName != null">#{orderSalesName},</if>
+            <if test="waybillNos != null">#{waybillNos},</if>
+            <if test="waybillFare != null">#{waybillFare},</if>
+            <if test="createId != null">#{createId},</if>
+            <if test="createName != null">#{createName},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateId != null">#{updateId},</if>
+            <if test="updateName != null">#{updateName},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="remark != null">#{remark},</if>
+            <if test="delFlag != null">#{delFlag},</if>
+         </trim>
+    </insert>
+
+    <update id="updateProductSmallOrder" parameterType="com.lingzhi.crm.order.domin.ProductSmallOrder">
+        update product_small_order
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="orderNo != null">order_no = #{orderNo},</if>
+            <if test="orderDate != null">order_date = #{orderDate},</if>
+            <if test="planDeliveryDate != null">plan_delivery_date = #{planDeliveryDate},</if>
+            <if test="customerCountry != null">customer_country = #{customerCountry},</if>
+            <if test="customerName != null">customer_name = #{customerName},</if>
+            <if test="arrivalMoneyPercent != null">arrival_money_percent = #{arrivalMoneyPercent},</if>
+            <if test="goodsAmountPriceDollar != null">goods_amount_price_dollar = #{goodsAmountPriceDollar},</if>
+            <if test="goodsAmountPriceRmb != null">goods_amount_price_rmb = #{goodsAmountPriceRmb},</if>
+            <if test="dollarRmbExchangeRate != null">dollar_rmb_exchange_rate = #{dollarRmbExchangeRate},</if>
+            <if test="paymentChannel != null">payment_channel = #{paymentChannel},</if>
+            <if test="paymentServiceCharge != null">payment_service_charge = #{paymentServiceCharge},</if>
+            <if test="alibabaOrderNo != null">alibaba_order_no = #{alibabaOrderNo},</if>
+            <if test="expressCategory != null">express_category = #{expressCategory},</if>
+            <if test="orderQualityRequire != null">order_quality_require = #{orderQualityRequire},</if>
+            <if test="orderPackageRequire != null">order_package_require = #{orderPackageRequire},</if>
+            <if test="orderDeliveryDateRequire != null">order_delivery_date_require = #{orderDeliveryDateRequire},</if>
+            <if test="orderSalesId != null">order_sales_id = #{orderSalesId},</if>
+            <if test="orderSalesName != null">order_sales_name = #{orderSalesName},</if>
+            <if test="waybillNos != null">waybill_nos = #{waybillNos},</if>
+            <if test="waybillFare != null">waybill_fare = #{waybillFare},</if>
+            <if test="createId != null">create_id = #{createId},</if>
+            <if test="createName != null">create_name = #{createName},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateId != null">update_id = #{updateId},</if>
+            <if test="updateName != null">update_name = #{updateName},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="remark != null">remark = #{remark},</if>
+            <if test="delFlag != null">del_flag = #{delFlag},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteProductSmallOrderById" parameterType="Long">
+        delete from product_small_order where id = #{id}
+    </delete>
+
+    <delete id="deleteProductSmallOrderByIds" parameterType="String">
+        delete from product_small_order where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

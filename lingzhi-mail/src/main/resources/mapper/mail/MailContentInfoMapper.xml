@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lingzhi.crm.mail.mapper.MailContentInfoMapper">
+    
+    <resultMap type="MailContentInfo" id="MailContentInfoResult">
+        <result property="mailId"    column="mail_id"    />
+        <result property="mailType"    column="mail_type"    />
+        <result property="mailPlainText"    column="mail_plain_text"    />
+        <result property="mailSubject"    column="mail_subject"    />
+        <result property="mailSender"    column="mail_sender"    />
+        <result property="mailMessageId" column="mail_message_id" />
+        <result property="receiver"      column="receiver"       />
+        <result property="readFlag"    column="read_flag"    />
+        <result property="sendStatus"    column="send_status"    />
+        <result property="folderId"    column="folder_id"    />
+        <result property="viewCount"    column="view_count"    />
+        <result property="deleteFlag"    column="delete_flag"    />
+    </resultMap>
+
+    <sql id="selectMailContentInfoVo">
+        select mail_id, mail_type, mail_plain_text, mail_subject, mail_sender,mail_message_id, receiver, read_flag, send_status, folder_id, view_count, delete_flag from mail_content_info
+    </sql>
+
+    <select id="selectMailContentInfoList" parameterType="MailContentInfo" resultMap="MailContentInfoResult">
+        select mail_id, mail_type, mail_subject, mail_sender,mail_message_id, receiver, read_flag, send_status, folder_id, view_count, delete_flag from mail_content_info
+<!--        <include refid="selectMailContentInfoVo"/>-->
+        <where>
+            <if test="mailType != null  and mailType != ''"> and mail_type = #{mailType}</if>
+            <if test="mailPlainText != null  and mailPlainText != ''"> and mail_plain_text = #{mailPlainText}</if>
+            <if test="mailSubject != null  and mailSubject != ''"> and mail_subject = #{mailSubject}</if>
+            <if test="mailSender != null  and mailSender != ''"> and mail_sender = #{mailSender}</if>
+            <if test="mailMessageId != null and mailMessageId != ''"> and mail_message_id = #{mailMessageId}</if>
+            <if test="receiver != null and receiver != ''"> and receiver = #{receiver}</if>
+            <if test="readFlag != null  and readFlag != ''"> and read_flag = #{readFlag}</if>
+            <if test="sendStatus != null  and sendStatus != ''"> and send_status = #{sendStatus}</if>
+            <if test="folderId != null "> and folder_id = #{folderId}</if>
+            <if test="viewCount != null "> and view_count = #{viewCount}</if>
+            <if test="deleteFlag != null  and deleteFlag != ''"> and delete_flag = #{deleteFlag}</if>
+        </where>
+    </select>
+
+    <select id="selectMailContentInfoById" parameterType="Long" resultMap="MailContentInfoResult">
+        <include refid="selectMailContentInfoVo"/>
+        where mail_id = #{mailId}
+    </select>
+        
+    <insert id="insertMailContentInfo" parameterType="MailContentInfo" useGeneratedKeys="true" keyProperty="mailId">
+        insert into mail_content_info
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="mailType != null">mail_type,</if>
+            <if test="mailPlainText != null">mail_plain_text,</if>
+            <if test="mailSubject != null">mail_subject,</if>
+            <if test="mailSender != null">mail_sender,</if>
+            <if test="mailMessageId != null">mail_message_id,</if>
+            <if test="receiver != null">receiver,</if>
+            <if test="readFlag != null">read_flag,</if>
+            <if test="sendStatus != null">send_status,</if>
+            <if test="folderId != null">folder_id,</if>
+            <if test="viewCount != null">view_count,</if>
+            <if test="deleteFlag != null">delete_flag,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="mailType != null">#{mailType},</if>
+            <if test="mailPlainText != null">#{mailPlainText},</if>
+            <if test="mailSubject != null">#{mailSubject},</if>
+            <if test="mailSender != null">#{mailSender},</if>
+            <if test="mailMessageId != null">#{mailMessageId},</if>
+            <if test="receiver != null">#{receiver},</if>
+            <if test="readFlag != null">#{readFlag},</if>
+            <if test="sendStatus != null">#{sendStatus},</if>
+            <if test="folderId != null">#{folderId},</if>
+            <if test="viewCount != null">#{viewCount},</if>
+            <if test="deleteFlag != null">#{deleteFlag},</if>
+         </trim>
+    </insert>
+
+    <update id="updateMailContentInfo" parameterType="MailContentInfo">
+        update mail_content_info
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="mailType != null">mail_type = #{mailType},</if>
+            <if test="mailPlainText != null">mail_plain_text = #{mailPlainText},</if>
+            <if test="mailSubject != null">mail_subject = #{mailSubject},</if>
+            <if test="mailSender != null">mail_sender = #{mailSender},</if>
+            <if test="mailMessageId != null">mail_message_id = #{mailMessageId},</if>
+            <if test="receiver != null">receiver = #{receiver},</if>
+            <if test="readFlag != null">read_flag = #{readFlag},</if>
+            <if test="sendStatus != null">send_status = #{sendStatus},</if>
+            <if test="folderId != null">folder_id = #{folderId},</if>
+            <if test="viewCount != null">view_count = #{viewCount},</if>
+            <if test="deleteFlag != null">delete_flag = #{deleteFlag},</if>
+        </trim>
+        where mail_id = #{mailId}
+    </update>
+
+    <delete id="deleteMailContentInfoById" parameterType="Long">
+        delete from mail_content_info where mail_id = #{mailId}
+    </delete>
+
+    <delete id="deleteMailContentInfoByIds" parameterType="String">
+        delete from mail_content_info where mail_id in 
+        <foreach item="mailId" collection="array" open="(" separator="," close=")">
+            #{mailId}
+        </foreach>
+    </delete>
+
+    <insert id="insertMailContentInfoList" parameterType="list">
+        insert into mail_content_info
+        (
+         mail_type,mail_plain_text,mail_message_id,mail_sender,receiver,mail_subject
+        )
+        values
+        <foreach collection ="contentInfoList" item="contentInfo" index= "index" separator =",">
+            (
+            #{contentInfo.mailType},
+            #{contentInfo.mailPlainText},
+            #{contentInfo.mailMessageId},
+            #{contentInfo.mailSender},
+            #{contentInfo.receiver},
+            #{contentInfo.mailSubject}
+            )
+        </foreach >
+    </insert>
+</mapper>

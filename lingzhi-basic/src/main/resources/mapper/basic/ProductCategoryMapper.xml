@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lingzhi.crm.basic.mapper.ProductCategoryMapper">
+    
+    <resultMap type="ProductCategory" id="ProductCategoryResult">
+        <result property="id"    column="id"    />
+        <result property="categoryName"    column="category_name"    />
+        <result property="pCategoryId"    column="p_category_id"    />
+        <result property="categoryLevel"    column="category_level"    />
+        <result property="createdUserName"    column="created_user_name"    />
+        <result property="createdUserAccount"    column="created_user_account"    />
+        <result property="createdTime"    column="created_time"    />
+        <result property="updatedUserName"    column="updated_user_name"    />
+        <result property="updatedUserAccount"    column="updated_user_account"    />
+        <result property="updatedTime"    column="updated_time"    />
+        <result property="isDelete"    column="is_delete"    />
+        <result property="tenantId"    column="tenant_id"    />
+    </resultMap>
+
+    <sql id="selectProductCategoryVo">
+        select id, category_name, p_category_id, category_level, created_user_name, created_user_account, created_time, updated_user_name, updated_user_account, updated_time, is_delete, tenant_id from product_category
+    </sql>
+
+    <select id="selectProductCategoryList" parameterType="ProductCategory" resultMap="ProductCategoryResult">
+        <include refid="selectProductCategoryVo"/>
+        <where>
+            is_delete = '0'
+            <if test="categoryName != null  and categoryName != ''"> and category_name like concat('%', #{categoryName}, '%')</if>
+            <if test="pCategoryId != null "> and p_category_id = #{pCategoryId}</if>
+            <if test="categoryLevel != null "> and category_level = #{categoryLevel}</if>
+            <if test="createdUserName != null  and createdUserName != ''"> and created_user_name like concat('%', #{createdUserName}, '%')</if>
+            <if test="createdUserAccount != null  and createdUserAccount != ''"> and created_user_account = #{createdUserAccount}</if>
+            <if test="createdTime != null "> and created_time = #{createdTime}</if>
+            <if test="updatedUserName != null  and updatedUserName != ''"> and updated_user_name like concat('%', #{updatedUserName}, '%')</if>
+            <if test="updatedUserAccount != null  and updatedUserAccount != ''"> and updated_user_account = #{updatedUserAccount}</if>
+            <if test="updatedTime != null "> and updated_time = #{updatedTime}</if>
+            <if test="tenantId != null "> and tenant_id = #{tenantId}</if>
+        </where>
+    </select>
+    
+    <select id="selectProductCategoryById" parameterType="Long" resultMap="ProductCategoryResult">
+        <include refid="selectProductCategoryVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertProductCategory" parameterType="ProductCategory" useGeneratedKeys="true" keyProperty="id">
+        insert into product_category
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="categoryName != null">category_name,</if>
+            <if test="pCategoryId != null">p_category_id,</if>
+            <if test="categoryLevel != null">category_level,</if>
+            <if test="createdUserName != null">created_user_name,</if>
+            <if test="createdUserAccount != null">created_user_account,</if>
+            <if test="createdTime != null">created_time,</if>
+            <if test="updatedUserName != null">updated_user_name,</if>
+            <if test="updatedUserAccount != null">updated_user_account,</if>
+            <if test="updatedTime != null">updated_time,</if>
+            <if test="isDelete != null">is_delete,</if>
+            <if test="tenantId != null">tenant_id,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="categoryName != null">#{categoryName},</if>
+            <if test="pCategoryId != null">#{pCategoryId},</if>
+            <if test="categoryLevel != null">#{categoryLevel},</if>
+            <if test="createdUserName != null">#{createdUserName},</if>
+            <if test="createdUserAccount != null">#{createdUserAccount},</if>
+            <if test="createdTime != null">#{createdTime},</if>
+            <if test="updatedUserName != null">#{updatedUserName},</if>
+            <if test="updatedUserAccount != null">#{updatedUserAccount},</if>
+            <if test="updatedTime != null">#{updatedTime},</if>
+            <if test="isDelete != null">#{isDelete},</if>
+            <if test="tenantId != null">#{tenantId},</if>
+         </trim>
+    </insert>
+
+    <update id="updateProductCategory" parameterType="ProductCategory">
+        update product_category
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="categoryName != null">category_name = #{categoryName},</if>
+            <if test="pCategoryId != null">p_category_id = #{pCategoryId},</if>
+            <if test="categoryLevel != null">category_level = #{categoryLevel},</if>
+            <if test="createdUserName != null">created_user_name = #{createdUserName},</if>
+            <if test="createdUserAccount != null">created_user_account = #{createdUserAccount},</if>
+            <if test="createdTime != null">created_time = #{createdTime},</if>
+            <if test="updatedUserName != null">updated_user_name = #{updatedUserName},</if>
+            <if test="updatedUserAccount != null">updated_user_account = #{updatedUserAccount},</if>
+            <if test="updatedTime != null">updated_time = #{updatedTime},</if>
+            <if test="isDelete != null">is_delete = #{isDelete},</if>
+            <if test="tenantId != null">tenant_id = #{tenantId},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteProductCategoryById" parameterType="Long">
+        delete from product_category where id = #{id}
+    </delete>
+
+    <delete id="deleteProductCategoryByIds" parameterType="String">
+        delete from product_category where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

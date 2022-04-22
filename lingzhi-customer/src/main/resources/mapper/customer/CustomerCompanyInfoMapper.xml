@@ -1,0 +1,277 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lingzhi.crm.customer.mapper.CustomerCompanyInfoMapper">
+    
+    <resultMap type="CustomerCompanyInfo" id="CustomerCompanyInfoResult">
+        <result property="id"    column="id"    />
+        <result property="customerCode"    column="customer_code"    />
+        <result property="companyName"    column="company_name"    />
+        <result property="companyNameShorter"    column="company_name_shorter"    />
+        <result property="customerSourceId"    column="customer_source_id"    />
+        <result property="customerProcurementKey"    column="customer_procurement_key"    />
+        <result property="purchaseIntentionKey"    column="purchase_intention_key"    />
+        <result property="regionId"    column="region_id"    />
+        <result property="timeZoneId"    column="time_zone_id"    />
+        <result property="companySizeKey"    column="company_size_key"    />
+        <result property="customerCategoryId"    column="customer_category_id"    />
+        <result property="customerGourpId"    column="customer_gourp_id"    />
+        <result property="customerPublicGourpId"    column="customer_public_gourp_id"    />
+        <result property="customerStatusId"    column="customer_status_id"    />
+        <result property="customerLabelId"    column="customer_label_id"    />
+        <result property="customerStarLevelKey"    column="customer_star_level_key"    />
+        <result property="nextFollowTime"    column="next_follow_time"    />
+        <result property="companyRemarks"    column="company_remarks"    />
+        <result property="regionPhonePrefix"    column="region_phone_prefix"    />
+        <result property="phone"    column="phone"    />
+        <result property="companyImageUrl"    column="company_image_url"    />
+        <result property="companyHomepageUrl"    column="company_homepage_url"    />
+        <result property="customerFax"    column="customer_fax"    />
+        <result property="tenantId"    column="tenant_id"    />
+        <result property="createdUserName"    column="created_user_name"    />
+        <result property="createdUserAccount"    column="created_user_account"    />
+        <result property="createdTime"    column="created_time"    />
+        <result property="updatedUserName"    column="updated_user_name"    />
+        <result property="updatedUserAccount"    column="updated_user_account"    />
+        <result property="updatedTime"    column="updated_time"    />
+        <result property="isDelete"    column="is_delete"    />
+    </resultMap>
+
+    <sql id="selectCustomerCompanyInfoVo">
+        select id, customer_code, company_name, company_name_shorter, customer_source_id, customer_procurement_key, purchase_intention_key, region_id, time_zone_id, company_size_key, customer_category_id, customer_gourp_id, customer_public_gourp_id, customer_status_id, customer_label_id, customer_star_level_key, next_follow_time, company_remarks, region_phone_prefix, phone, company_image_url, company_homepage_url, customer_fax, tenant_id, created_user_name, created_user_account, created_time, updated_user_name, updated_user_account, updated_time, is_delete from customer_company_info
+    </sql>
+
+    <select id="selectCustomerCompanyInfoList" parameterType="CustomerCompanyInfo" resultMap="CustomerCompanyInfoResult">
+        <include refid="selectCustomerCompanyInfoVo"/>
+        <where>
+            is_delete = '0'
+            <if test="customerCode != null  and customerCode != ''"> and customer_code = #{customerCode}</if>
+            <if test="companyName != null  and companyName != ''"> and company_name like concat('%', #{companyName}, '%')</if>
+            <if test="companyNameShorter != null  and companyNameShorter != ''"> and company_name_shorter = #{companyNameShorter}</if>
+            <if test="customerSourceId != null "> and customer_source_id = #{customerSourceId}</if>
+            <if test="customerProcurementKey != null  and customerProcurementKey != ''"> and customer_procurement_key = #{customerProcurementKey}</if>
+            <if test="purchaseIntentionKey != null "> and purchase_intention_key = #{purchaseIntentionKey}</if>
+            <if test="regionId != null "> and region_id = #{regionId}</if>
+            <if test="timeZoneId != null "> and time_zone_id = #{timeZoneId}</if>
+            <if test="companySizeKey != null  and companySizeKey != ''"> and company_size_key = #{companySizeKey}</if>
+            <if test="customerCategoryId != null "> and customer_category_id = #{customerCategoryId}</if>
+            <if test="customerGourpId != null "> and customer_gourp_id = #{customerGourpId}</if>
+            <if test="customerPublicGourpId != null "> and customer_public_gourp_id = #{customerPublicGourpId}</if>
+            <if test="customerStatusId != null "> and customer_status_id = #{customerStatusId}</if>
+            <if test="customerLabelId != null "> and customer_label_id = #{customerLabelId}</if>
+            <if test="customerStarLevelKey != null  and customerStarLevelKey != ''"> and customer_star_level_key = #{customerStarLevelKey}</if>
+            <if test="nextFollowTime != null "> and next_follow_time = #{nextFollowTime}</if>
+            <if test="companyRemarks != null  and companyRemarks != ''"> and company_remarks = #{companyRemarks}</if>
+            <if test="regionPhonePrefix != null  and regionPhonePrefix != ''"> and region_phone_prefix = #{regionPhonePrefix}</if>
+            <if test="phone != null  and phone != ''"> and phone = #{phone}</if>
+            <if test="companyImageUrl != null  and companyImageUrl != ''"> and company_image_url = #{companyImageUrl}</if>
+            <if test="companyHomepageUrl != null  and companyHomepageUrl != ''"> and company_homepage_url = #{companyHomepageUrl}</if>
+            <if test="customerFax != null  and customerFax != ''"> and customer_fax = #{customerFax}</if>
+            <if test="tenantId != null "> and tenant_id = #{tenantId}</if>
+            <if test="createdUserName != null  and createdUserName != ''"> and created_user_name like concat('%', #{createdUserName}, '%')</if>
+            <if test="createdUserAccount != null  and createdUserAccount != ''"> and created_user_account = #{createdUserAccount}</if>
+            <if test="createdTime != null "> and created_time = #{createdTime}</if>
+            <if test="updatedUserName != null  and updatedUserName != ''"> and updated_user_name like concat('%', #{updatedUserName}, '%')</if>
+            <if test="updatedUserAccount != null  and updatedUserAccount != ''"> and updated_user_account = #{updatedUserAccount}</if>
+            <if test="updatedTime != null "> and updated_time = #{updatedTime}</if>
+        </where>
+    </select>
+    
+    <select id="selectCustomerCompanyInfoById" parameterType="Long" resultMap="CustomerCompanyInfoResult">
+        <include refid="selectCustomerCompanyInfoVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertCustomerCompanyInfo" parameterType="CustomerCompanyInfo" useGeneratedKeys="true" keyProperty="id">
+        insert into customer_company_info
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="customerCode != null and customerCode != ''">customer_code,</if>
+            <if test="companyName != null">company_name,</if>
+            <if test="companyNameShorter != null">company_name_shorter,</if>
+            <if test="customerSourceId != null">customer_source_id,</if>
+            <if test="customerProcurementKey != null">customer_procurement_key,</if>
+            <if test="purchaseIntentionKey != null">purchase_intention_key,</if>
+            <if test="regionId != null">region_id,</if>
+            <if test="timeZoneId != null">time_zone_id,</if>
+            <if test="companySizeKey != null">company_size_key,</if>
+            <if test="customerCategoryId != null">customer_category_id,</if>
+            <if test="customerGourpId != null">customer_gourp_id,</if>
+            <if test="customerPublicGourpId != null">customer_public_gourp_id,</if>
+            <if test="customerStatusId != null">customer_status_id,</if>
+            <if test="customerLabelId != null">customer_label_id,</if>
+            <if test="customerStarLevelKey != null">customer_star_level_key,</if>
+            <if test="nextFollowTime != null">next_follow_time,</if>
+            <if test="companyRemarks != null">company_remarks,</if>
+            <if test="regionPhonePrefix != null">region_phone_prefix,</if>
+            <if test="phone != null">phone,</if>
+            <if test="companyImageUrl != null">company_image_url,</if>
+            <if test="companyHomepageUrl != null">company_homepage_url,</if>
+            <if test="customerFax != null">customer_fax,</if>
+            <if test="tenantId != null">tenant_id,</if>
+            <if test="createdUserName != null">created_user_name,</if>
+            <if test="createdUserAccount != null">created_user_account,</if>
+            <if test="createdTime != null">created_time,</if>
+            <if test="updatedUserName != null">updated_user_name,</if>
+            <if test="updatedUserAccount != null">updated_user_account,</if>
+            <if test="updatedTime != null">updated_time,</if>
+            <if test="isDelete != null">is_delete,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="customerCode != null and customerCode != ''">#{customerCode},</if>
+            <if test="companyName != null">#{companyName},</if>
+            <if test="companyNameShorter != null">#{companyNameShorter},</if>
+            <if test="customerSourceId != null">#{customerSourceId},</if>
+            <if test="customerProcurementKey != null">#{customerProcurementKey},</if>
+            <if test="purchaseIntentionKey != null">#{purchaseIntentionKey},</if>
+            <if test="regionId != null">#{regionId},</if>
+            <if test="timeZoneId != null">#{timeZoneId},</if>
+            <if test="companySizeKey != null">#{companySizeKey},</if>
+            <if test="customerCategoryId != null">#{customerCategoryId},</if>
+            <if test="customerGourpId != null">#{customerGourpId},</if>
+            <if test="customerPublicGourpId != null">#{customerPublicGourpId},</if>
+            <if test="customerStatusId != null">#{customerStatusId},</if>
+            <if test="customerLabelId != null">#{customerLabelId},</if>
+            <if test="customerStarLevelKey != null">#{customerStarLevelKey},</if>
+            <if test="nextFollowTime != null">#{nextFollowTime},</if>
+            <if test="companyRemarks != null">#{companyRemarks},</if>
+            <if test="regionPhonePrefix != null">#{regionPhonePrefix},</if>
+            <if test="phone != null">#{phone},</if>
+            <if test="companyImageUrl != null">#{companyImageUrl},</if>
+            <if test="companyHomepageUrl != null">#{companyHomepageUrl},</if>
+            <if test="customerFax != null">#{customerFax},</if>
+            <if test="tenantId != null">#{tenantId},</if>
+            <if test="createdUserName != null">#{createdUserName},</if>
+            <if test="createdUserAccount != null">#{createdUserAccount},</if>
+            <if test="createdTime != null">#{createdTime},</if>
+            <if test="updatedUserName != null">#{updatedUserName},</if>
+            <if test="updatedUserAccount != null">#{updatedUserAccount},</if>
+            <if test="updatedTime != null">#{updatedTime},</if>
+            <if test="isDelete != null">#{isDelete},</if>
+         </trim>
+    </insert>
+
+    <update id="updateCustomerCompanyInfo" parameterType="CustomerCompanyInfo">
+        update customer_company_info
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="customerCode != null and customerCode != ''">customer_code = #{customerCode},</if>
+            <if test="companyName != null">company_name = #{companyName},</if>
+            <if test="companyNameShorter != null">company_name_shorter = #{companyNameShorter},</if>
+            <if test="customerSourceId != null">customer_source_id = #{customerSourceId},</if>
+            <if test="customerProcurementKey != null">customer_procurement_key = #{customerProcurementKey},</if>
+            <if test="purchaseIntentionKey != null">purchase_intention_key = #{purchaseIntentionKey},</if>
+            <if test="regionId != null">region_id = #{regionId},</if>
+            <if test="timeZoneId != null">time_zone_id = #{timeZoneId},</if>
+            <if test="companySizeKey != null">company_size_key = #{companySizeKey},</if>
+            <if test="customerCategoryId != null">customer_category_id = #{customerCategoryId},</if>
+            <if test="customerGourpId != null">customer_gourp_id = #{customerGourpId},</if>
+            <if test="customerPublicGourpId != null">customer_public_gourp_id = #{customerPublicGourpId},</if>
+            <if test="customerStatusId != null">customer_status_id = #{customerStatusId},</if>
+            <if test="customerLabelId != null">customer_label_id = #{customerLabelId},</if>
+            <if test="customerStarLevelKey != null">customer_star_level_key = #{customerStarLevelKey},</if>
+            <if test="nextFollowTime != null">next_follow_time = #{nextFollowTime},</if>
+            <if test="companyRemarks != null">company_remarks = #{companyRemarks},</if>
+            <if test="regionPhonePrefix != null">region_phone_prefix = #{regionPhonePrefix},</if>
+            <if test="phone != null">phone = #{phone},</if>
+            <if test="companyImageUrl != null">company_image_url = #{companyImageUrl},</if>
+            <if test="companyHomepageUrl != null">company_homepage_url = #{companyHomepageUrl},</if>
+            <if test="customerFax != null">customer_fax = #{customerFax},</if>
+            <if test="tenantId != null">tenant_id = #{tenantId},</if>
+            <if test="createdUserName != null">created_user_name = #{createdUserName},</if>
+            <if test="createdUserAccount != null">created_user_account = #{createdUserAccount},</if>
+            <if test="createdTime != null">created_time = #{createdTime},</if>
+            <if test="updatedUserName != null">updated_user_name = #{updatedUserName},</if>
+            <if test="updatedUserAccount != null">updated_user_account = #{updatedUserAccount},</if>
+            <if test="updatedTime != null">updated_time = #{updatedTime},</if>
+            <if test="isDelete != null">is_delete = #{isDelete},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <update id="deleteCustomerCompanyInfoById" parameterType="Long">
+        update customer_company_info set is_delete = '1'
+        where id = #{id}
+    </update>
+
+    <update id="deleteCustomerCompanyInfoByIds" parameterType="String">
+        update customer_company_info set is_delete = '1' where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </update>
+
+    <select id="getCompanyDetailById" parameterType="long" resultType="com.lingzhi.crm.customer.vo.CompanyCustomerDetailOutVO">
+        select cci.id as id,cci.customer_code as customerCode,cci.company_name as companyName,cci.company_name_shorter as companyNameShorter,
+               cci.customer_source_id as customerSourceId,cso.source_name as customerSourceName,cci.customer_procurement_key as customerProcurementKey,
+               cci.purchase_intention_key as purchaseIntentionKey,cci.region_id as regionId,cr.region_whole_name as regionName,
+               cci.time_zone_id as timeZoneId,tz.zone_name as timeZoneName,cci.company_size_key as companySizeKey,cci.customer_category_id as customerCategoryId,
+               cc.category_name as customerCategoryName,cci.customer_gourp_id as customerGourpId,cg.group_name as customerGourpName,
+               cci.customer_public_gourp_id as customerPublicGourpId,cpg.public_group_name as customerPublicGourpName,cci.customer_status_id as customerStatusId,
+               cst.status_name as customerStatusName,cci.customer_label_id as customerLabelId,cl.label_name as customerLabelName,cci.customer_star_level_key as customerStarLevelKey,
+               cci.next_follow_time as nextFollowTime,cci.company_remarks as companyRemarks,cci.region_phone_prefix as regionPhonePrefix,cci.phone as phone,cci.company_image_url as companyImageUrl,
+               cci.company_homepage_url as companyHomepageUrl,cci.customer_fax as customerFax,cci.tenant_id as tenantId,cci.created_user_name as createdUserName,cci.created_user_account as createdUserAccount,
+               cci.created_time as createdTime,cci.updated_user_name as updatedUserName,cci.updated_user_account as updatedUserAccount,cc.updated_time as updatedTime
+        from customer_company_info as cci
+        left join customer_source as cso on cso.id = cci.customer_source_id
+        left join country_region as cr on cr.id = cci.region_id
+        left join time_zone as tz on tz.id = cci.time_zone_id
+        left join customer_category as cc on cc.id = cci.customer_category_id
+        left join customer_group as cg on cg.id = cci.customer_gourp_id
+        left join customer_public_group as cpg on cpg.id = cci.customer_public_gourp_id
+        left join customer_status as cst on cst.id = cci.customer_status_id
+        left join customer_label as cl on cl.id = cci.customer_label_id
+        where cci.id = #{id}
+    </select>
+
+    <select id="getCompanyDetailList" parameterType="CustomerCompanyInfo" resultType="com.lingzhi.crm.customer.vo.CompanyCustomerDetailOutVO">
+        select cci.id,cci.customer_code as customerCode,cci.company_name as companyName,cci.company_name_shorter as companyNameShorter,cci.customer_source_id as customerSourceId,
+               cso.source_name as customerSourceName,cci.customer_procurement_key as customerProcurementKey,cci.purchase_intention_key as purchaseIntentionKey,cci.region_id as regionId,cr.region_chinese_name as regionName,
+               cci.time_zone_id as timeZoneId,tz.zone_name as timeZoneName,cci.company_size_key as companySizeKey,cci.customer_category_id as customerCategoryId,cc.category_name as customerCategoryName,
+               cci.customer_gourp_id as customerGourpId,cg.group_name as customerGourpName,cci.customer_public_gourp_id as customerPublicGourpId,cpg.public_group_name as customerPublicGourpName,cci.customer_status_id as customerStatusId,
+               cst.status_name as customerStatusName,cci.customer_label_id as customerLabelId,cl.label_name as customerLabelName,cci.customer_star_level_key as customerStarLevelKey,cci.next_follow_time as nextFollowTime,
+               cci.company_remarks as companyRemarks,cci.region_phone_prefix as regionPhonePrefix,cci.phone,cci.company_image_url as companyImageUrl,cci.company_homepage_url as companyHomepageUrl,cci.customer_fax as customerFax,
+               cci.tenant_id as tenantId,cci.created_user_name as createdUserName,cci.created_user_account as createdUserAccount,cci.created_time as createdTime,cci.updated_user_name as updatedUserName,cci.updated_user_account as updatedUserAccount,
+               cci.updated_time as updatedTime
+        from customer_company_info as cci
+        left join customer_category as cc on cc.id = cci.customer_category_id
+        left join customer_group as cg on cg.id = cci.customer_gourp_id
+        left join customer_label as cl on cl.id = cci.customer_label_id
+        left join customer_public_group as cpg on cpg.id = cci.customer_public_gourp_id
+        left join customer_source as cso on cso.id = cci.customer_source_id
+        left join customer_status as cst on cst.id = cci.customer_status_id
+        left join time_zone as tz on tz.id = cci.time_zone_id
+        left join country_region as cr on cr.id = cci.region_id
+        <where>
+            cci.is_delete = '0'
+            <if test="customerCode != null  and customerCode != ''"> and cci.customer_code = #{customerCode}</if>
+            <if test="companyName != null  and companyName != ''"> and cci.company_name like concat('%', #{companyName}, '%')</if>
+            <if test="companyNameShorter != null  and companyNameShorter != ''"> and cci.company_name_shorter = #{companyNameShorter}</if>
+            <if test="customerSourceId != null "> and cci.customer_source_id = #{customerSourceId}</if>
+            <if test="customerProcurementKey != null  and customerProcurementKey != ''"> and cci.customer_procurement_key = #{customerProcurementKey}</if>
+            <if test="purchaseIntentionKey != null "> and cci.purchase_intention_key = #{purchaseIntentionKey}</if>
+            <if test="regionId != null "> and cci.region_id = #{regionId}</if>
+            <if test="timeZoneId != null "> and cci.time_zone_id = #{timeZoneId}</if>
+            <if test="companySizeKey != null  and companySizeKey != ''"> and cci.company_size_key = #{companySizeKey}</if>
+            <if test="customerCategoryId != null "> and cci.customer_category_id = #{customerCategoryId}</if>
+            <if test="customerGourpId != null "> and cci.customer_gourp_id = #{customerGourpId}</if>
+            <if test="customerPublicGourpId != null "> and cci.customer_public_gourp_id = #{customerPublicGourpId}</if>
+            <if test="customerStatusId != null "> and cci.customer_status_id = #{customerStatusId}</if>
+            <if test="customerLabelId != null "> and cci.customer_label_id = #{customerLabelId}</if>
+            <if test="customerStarLevelKey != null  and customerStarLevelKey != ''"> and cci.customer_star_level_key = #{customerStarLevelKey}</if>
+            <if test="nextFollowTime != null "> and cci.next_follow_time = #{nextFollowTime}</if>
+            <if test="companyRemarks != null  and companyRemarks != ''"> and cci.company_remarks = #{companyRemarks}</if>
+            <if test="regionPhonePrefix != null  and regionPhonePrefix != ''"> and cci.region_phone_prefix = #{regionPhonePrefix}</if>
+            <if test="phone != null  and phone != ''"> and cci.phone = #{phone}</if>
+            <if test="companyImageUrl != null  and companyImageUrl != ''"> and cci.company_image_url = #{companyImageUrl}</if>
+            <if test="companyHomepageUrl != null  and companyHomepageUrl != ''"> and cci.company_homepage_url = #{companyHomepageUrl}</if>
+            <if test="customerFax != null  and customerFax != ''"> and cci.customer_fax = #{customerFax}</if>
+            <if test="tenantId != null "> and cci.tenant_id = #{tenantId}</if>
+            <if test="createdUserName != null  and createdUserName != ''"> and cci.created_user_name like concat('%', #{createdUserName}, '%')</if>
+            <if test="createdUserAccount != null  and createdUserAccount != ''"> and cci.created_user_account = #{createdUserAccount}</if>
+            <if test="createdTime != null "> and cci.created_time = #{createdTime}</if>
+            <if test="updatedUserName != null  and updatedUserName != ''"> and cci.updated_user_name like concat('%', #{updatedUserName}, '%')</if>
+            <if test="updatedUserAccount != null  and updatedUserAccount != ''"> and cci.updated_user_account = #{updatedUserAccount}</if>
+            <if test="updatedTime != null "> and cci.updated_time = #{updatedTime}</if>
+        </where>
+    </select>
+</mapper>

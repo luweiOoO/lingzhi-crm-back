@@ -1,0 +1,285 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lingzhi.crm.order.mapper.ProductWaybillMessageMapper">
+    
+    <resultMap type="com.lingzhi.crm.order.domin.ProductWaybillMessage" id="ProductWaybillMessageResult">
+        <result property="id"    column="id"    />
+        <result property="waybillNo"    column="waybill_no"    />
+        <result property="payAccount"    column="pay_account"    />
+        <result property="deliveryDate"    column="delivery_date"    />
+        <result property="deliveryName"    column="delivery_name"    />
+        <result property="receiveName"    column="receive_name"    />
+        <result property="receiveCompany"    column="receive_company"    />
+        <result property="receiveAddressA"    column="receive_address_a"    />
+        <result property="receiveAddressB"    column="receive_address_b"    />
+        <result property="receiveAddressPostalCode"    column="receive_address_postal_code"    />
+        <result property="paymentDate"    column="payment_date"    />
+        <result property="goodsNumber"    column="goods_number"    />
+        <result property="goodsWeight"    column="goods_weight"    />
+        <result property="goodsPrice"    column="goods_price"    />
+        <result property="waybillFare"    column="waybill_fare"    />
+        <result property="createId"    column="create_id"    />
+        <result property="createName"    column="create_name"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateId"    column="update_id"    />
+        <result property="updateName"    column="update_name"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="delFlag"    column="del_flag"    />
+        <result property="remark"    column="remark"    />
+    </resultMap>
+
+    <sql id="selectProductWaybillMessageVo">
+        select id, waybill_no, pay_account, delivery_date, delivery_name, receive_name, receive_company, receive_address_a, receive_address_b, receive_address_postal_code, payment_date, goods_number, goods_weight, goods_price, waybill_fare, create_id, create_name, create_time, update_id, update_name, update_time, del_flag, remark from product_waybill_message
+    </sql>
+
+    <select id="selectProductWaybillMessageList" parameterType="com.lingzhi.crm.order.dto.WaybillMessageParamsDto" resultMap="ProductWaybillMessageResult">
+        <include refid="selectProductWaybillMessageVo"/>
+        <where>  
+            <if test="waybillNo != null  and waybillNo != ''"> and waybill_no = #{waybillNo}</if>
+            <if test="payAccount != null  and payAccount != ''"> and pay_account = #{payAccount}</if>
+            <if test="deliveryDate != null "> and delivery_date = #{deliveryDate}</if>
+            <if test="startDeliveryDate != null"> and delivery_date &gt;= #{startDeliveryDate}</if>
+            <if test="endDeliveryDate != null"> and delivery_date &lt;= #{endDeliveryDate}</if>
+            <if test="deliveryName != null  and deliveryName != ''"> and delivery_name like concat('%', #{deliveryName}, '%')</if>
+            <if test="receiveName != null  and receiveName != ''"> and receive_name like concat('%', #{receiveName}, '%')</if>
+            <if test="receiveCompany != null  and receiveCompany != ''"> and receive_company = #{receiveCompany}</if>
+            <if test="receiveAddressA != null  and receiveAddressA != ''"> and receive_address_a = #{receiveAddressA}</if>
+            <if test="receiveAddressB != null  and receiveAddressB != ''"> and receive_address_b = #{receiveAddressB}</if>
+            <if test="receiveAddressPostalCode != null  and receiveAddressPostalCode != ''"> and receive_address_postal_code = #{receiveAddressPostalCode}</if>
+            <if test="paymentDate != null "> and payment_date = #{paymentDate}</if>
+            <if test="goodsNumber != null "> and goods_number = #{goodsNumber}</if>
+            <if test="goodsWeight != null "> and goods_weight = #{goodsWeight}</if>
+            <if test="goodsPrice != null "> and goods_price = #{goodsPrice}</if>
+            <if test="waybillFare != null "> and waybill_fare = #{waybillFare}</if>
+            <if test="createId != null "> and create_id = #{createId}</if>
+            <if test="createName != null  and createName != ''"> and create_name like concat('%', #{createName}, '%')</if>
+            <if test="updateId != null "> and update_id = #{updateId}</if>
+            <if test="updateName != null  and updateName != ''"> and update_name like concat('%', #{updateName}, '%')</if>
+            ${params.dataScope}
+        </where>
+    </select>
+    
+    <select id="selectProductWaybillMessageById" parameterType="Long" resultMap="ProductWaybillMessageResult">
+        <include refid="selectProductWaybillMessageVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertProductWaybillMessage" parameterType="com.lingzhi.crm.order.domin.ProductWaybillMessage" useGeneratedKeys="true" keyProperty="id">
+        insert into product_waybill_message
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="waybillNo != null">waybill_no,</if>
+            <if test="payAccount != null">pay_account,</if>
+            <if test="deliveryDate != null">delivery_date,</if>
+            <if test="deliveryName != null">delivery_name,</if>
+            <if test="receiveName != null">receive_name,</if>
+            <if test="receiveCompany != null">receive_company,</if>
+            <if test="receiveAddressA != null">receive_address_a,</if>
+            <if test="receiveAddressB != null">receive_address_b,</if>
+            <if test="receiveAddressPostalCode != null">receive_address_postal_code,</if>
+            <if test="paymentDate != null">payment_date,</if>
+            <if test="goodsNumber != null">goods_number,</if>
+            <if test="goodsWeight != null">goods_weight,</if>
+            <if test="goodsPrice != null">goods_price,</if>
+            <if test="waybillFare != null">waybill_fare,</if>
+            <if test="createId != null">create_id,</if>
+            <if test="createName != null">create_name,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateId != null">update_id,</if>
+            <if test="updateName != null">update_name,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="delFlag != null">del_flag,</if>
+            <if test="remark != null">remark,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="waybillNo != null">#{waybillNo},</if>
+            <if test="payAccount != null">#{payAccount},</if>
+            <if test="deliveryDate != null">#{deliveryDate},</if>
+            <if test="deliveryName != null">#{deliveryName},</if>
+            <if test="receiveName != null">#{receiveName},</if>
+            <if test="receiveCompany != null">#{receiveCompany},</if>
+            <if test="receiveAddressA != null">#{receiveAddressA},</if>
+            <if test="receiveAddressB != null">#{receiveAddressB},</if>
+            <if test="receiveAddressPostalCode != null">#{receiveAddressPostalCode},</if>
+            <if test="paymentDate != null">#{paymentDate},</if>
+            <if test="goodsNumber != null">#{goodsNumber},</if>
+            <if test="goodsWeight != null">#{goodsWeight},</if>
+            <if test="goodsPrice != null">#{goodsPrice},</if>
+            <if test="waybillFare != null">#{waybillFare},</if>
+            <if test="createId != null">#{createId},</if>
+            <if test="createName != null">#{createName},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateId != null">#{updateId},</if>
+            <if test="updateName != null">#{updateName},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="delFlag != null">#{delFlag},</if>
+            <if test="remark != null">#{remark},</if>
+         </trim>
+    </insert>
+
+    <update id="updateProductWaybillMessage" parameterType="com.lingzhi.crm.order.domin.ProductWaybillMessage">
+        update product_waybill_message
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="waybillNo != null">waybill_no = #{waybillNo},</if>
+            <if test="payAccount != null">pay_account = #{payAccount},</if>
+            <if test="deliveryDate != null">delivery_date = #{deliveryDate},</if>
+            <if test="deliveryName != null">delivery_name = #{deliveryName},</if>
+            <if test="receiveName != null">receive_name = #{receiveName},</if>
+            <if test="receiveCompany != null">receive_company = #{receiveCompany},</if>
+            <if test="receiveAddressA != null">receive_address_a = #{receiveAddressA},</if>
+            <if test="receiveAddressB != null">receive_address_b = #{receiveAddressB},</if>
+            <if test="receiveAddressPostalCode != null">receive_address_postal_code = #{receiveAddressPostalCode},</if>
+            <if test="paymentDate != null">payment_date = #{paymentDate},</if>
+            <if test="goodsNumber != null">goods_number = #{goodsNumber},</if>
+            <if test="goodsWeight != null">goods_weight = #{goodsWeight},</if>
+            <if test="goodsPrice != null">goods_price = #{goodsPrice},</if>
+            <if test="waybillFare != null">waybill_fare = #{waybillFare},</if>
+            <if test="createId != null">create_id = #{createId},</if>
+            <if test="createName != null">create_name = #{createName},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateId != null">update_id = #{updateId},</if>
+            <if test="updateName != null">update_name = #{updateName},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="delFlag != null">del_flag = #{delFlag},</if>
+            <if test="remark != null">remark = #{remark},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteProductWaybillMessageById" parameterType="Long">
+        delete from product_waybill_message where id = #{id}
+    </delete>
+
+    <delete id="deleteProductWaybillMessageByIds" parameterType="String">
+        delete from product_waybill_message where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+    <select id="selectWayBillNoListByNoList" parameterType="list" resultType="string">
+        select waybill_no from product_waybill_message where waybill_no in
+        <foreach item="waybillNo" collection="waybillNoList" open="(" separator="," close=")">
+            #{waybillNo}
+        </foreach>
+    </select>
+
+    <insert id="insertProductWaybillMessageBatch" useGeneratedKeys="true" keyProperty="id">
+        insert into product_waybill_message
+        (waybill_no,
+        pay_account,
+        delivery_date,
+        delivery_name,
+        receive_name,
+        receive_company,
+        receive_address_a,
+        receive_address_b,
+        receive_address_postal_code,
+        payment_date,
+        goods_number,
+        goods_weight,
+        goods_price,
+        waybill_fare,
+        create_id,
+        create_name,
+        create_time,
+        del_flag,
+        remark
+        )
+        values
+        <foreach collection="waybillList" item="item" separator="," index="index">
+            ( #{item.waybillNo},
+            #{item.payAccount},
+            #{item.deliveryDate},
+            #{item.deliveryName},
+            #{item.receiveName},
+            #{item.receiveCompany},
+            #{item.receiveAddressA},
+            #{item.receiveAddressB},
+            #{item.receiveAddressPostalCode},
+            #{item.paymentDate},
+            #{item.goodsNumber},
+            #{item.goodsWeight},
+            #{item.goodsPrice},
+            #{item.waybillFare},
+            #{item.createId},
+            #{item.createName},
+            #{item.createTime},
+            #{item.delFlag},
+            #{item.remark}
+            )
+        </foreach>
+    </insert>
+    
+    <update id="updateProductWaybillMessageByWaybillNoBatch">
+        update product_waybill_message
+        <trim prefix="SET" suffixOverrides=",">
+            <foreach collection="waybillList" item="item" open="pay_account = case " close=" end,">
+                when waybill_no = #{item.waybillNo} then #{item.payAccount}
+            </foreach>
+            <foreach collection="waybillList" item="item" open="delivery_date = case " close=" end,">
+                when waybill_no = #{item.waybillNo} then #{item.deliveryDate}
+            </foreach>
+            <foreach collection="waybillList" item="item" open="delivery_name = case " close=" end,">
+                when waybill_no = #{item.waybillNo} then #{item.deliveryName}
+            </foreach>
+            <foreach collection="waybillList" item="item" open="receive_name = case " close=" end,">
+                when waybill_no = #{item.waybillNo} then #{item.receiveName}
+            </foreach>
+            <foreach collection="waybillList" item="item" open="receive_company = case " close=" end,">
+                when waybill_no = #{item.waybillNo} then #{item.receiveCompany}
+            </foreach>
+            <foreach collection="waybillList" item="item" open="receive_address_a = case " close=" end,">
+                when waybill_no = #{item.waybillNo} then #{item.receiveAddressA}
+            </foreach>
+            <foreach collection="waybillList" item="item" open="receive_address_b = case " close=" end,">
+                when waybill_no = #{item.waybillNo} then #{item.receiveAddressB}
+            </foreach>
+            <foreach collection="waybillList" item="item" open="receive_address_postal_code = case " close=" end,">
+                when waybill_no = #{item.waybillNo} then #{item.receiveAddressPostalCode}
+            </foreach>
+            <foreach collection="waybillList" item="item" open="payment_date = case " close=" end,">
+                when waybill_no = #{item.waybillNo} then #{item.paymentDate}
+            </foreach>
+            <foreach collection="waybillList" item="item" open="goods_number = case " close=" end,">
+                when waybill_no = #{item.waybillNo} then #{item.goodsNumber}
+            </foreach>
+            <foreach collection="waybillList" item="item" open="goods_weight = case " close=" end,">
+                when waybill_no = #{item.waybillNo} then #{item.goodsWeight}
+            </foreach>
+            <foreach collection="waybillList" item="item" open="goods_price = case " close=" end,">
+                when waybill_no = #{item.waybillNo} then #{item.goodsPrice}
+            </foreach>
+            <foreach collection="waybillList" item="item" open="waybill_fare = case " close=" end,">
+                when waybill_no = #{item.waybillNo} then #{item.waybillFare}
+            </foreach>
+            <foreach collection="waybillList" item="item" open="remark = case " close=" end,">
+                when waybill_no = #{item.waybillNo} then #{item.remark}
+            </foreach>
+            update_name = #{waybillList[0].updateName},
+            update_time = #{waybillList[0].updateTime},
+        </trim>
+        where waybill_no IN
+        <foreach collection="waybillList" item="item" separator="," open="(" close=")">
+            #{item.waybillNo}
+        </foreach>
+    </update>
+
+    <select id="selectRecordNoList" parameterType="list" resultType="String">
+        SELECT waybill_no FROM product_waybill_message
+        WHERE del_flag = 'N'
+        AND waybill_no IN
+        <foreach collection="waybillNoList" item="waybillNo" separator="," open="(" close=")">
+            #{waybillNo}
+        </foreach>
+    </select>
+
+    <select id="sumWaybillFareByNoList" parameterType="list" resultType="decimal">
+        SELECT sum(waybill_fare) AS waybillFare FROM product_waybill_message
+        WHERE waybill_no IN
+        <foreach collection="waybillNoList" item="waybillNo" separator="," open="(" close=")">
+            #{waybillNo}
+        </foreach>
+    </select>
+</mapper>

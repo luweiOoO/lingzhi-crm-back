@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lingzhi.crm.system.mapper.SysTenantMapper">
+
+    <resultMap type="SysTenant" id="SysTenantResult">
+        <result property="tenantId"    column="tenant_id"    />
+        <result property="tenantName"    column="tenant_name"    />
+        <result property="validTime"    column="valid_time"    />
+        <result property="ownerUserId"    column="owner_user_id"    />
+        <result property="isDelete"    column="is_delete"    />
+        <result property="status"    column="status"    />
+    </resultMap>
+
+    <sql id="selectSysTenantVo">
+        select tenant_id, tenant_name, valid_time, owner_user_id, is_delete, status from sys_tenant
+    </sql>
+
+    <select id="selectSysTenantList" parameterType="SysTenant" resultMap="SysTenantResult">
+        <include refid="selectSysTenantVo"/>
+        <where>
+            <if test="tenantName != null  and tenantName != ''"> and tenant_name like concat('%', #{tenantName}, '%')</if>
+            <if test="validTime != null "> and valid_time = #{validTime}</if>
+            <if test="ownerUserId != null "> and owner_user_id = #{ownerUserId}</if>
+            <if test="isDelete != null "> and is_delete = #{isDelete}</if>
+            <if test="status != null "> and status = #{status}</if>
+        </where>
+    </select>
+
+    <select id="selectSysTenantById" parameterType="Long" resultMap="SysTenantResult">
+        <include refid="selectSysTenantVo"/>
+        where tenant_id = #{tenantId}
+    </select>
+
+    <insert id="insertSysTenant" parameterType="SysTenant" useGeneratedKeys="true" keyProperty="tenantId">
+        insert into sys_tenant
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="tenantName != null">tenant_name,</if>
+            <if test="validTime != null">valid_time,</if>
+            <if test="ownerUserId != null">owner_user_id,</if>
+            <if test="isDelete != null">is_delete,</if>
+            <if test="status != null">status,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="tenantName != null">#{tenantName},</if>
+            <if test="validTime != null">#{validTime},</if>
+            <if test="ownerUserId != null">#{ownerUserId},</if>
+            <if test="isDelete != null">#{isDelete},</if>
+            <if test="status != null">#{status},</if>
+        </trim>
+    </insert>
+
+    <update id="updateSysTenant" parameterType="SysTenant">
+        update sys_tenant
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="tenantName != null">tenant_name = #{tenantName},</if>
+            <if test="validTime != null">valid_time = #{validTime},</if>
+            <if test="ownerUserId != null">owner_user_id = #{ownerUserId},</if>
+            <if test="isDelete != null">is_delete = #{isDelete},</if>
+            <if test="status != null">status = #{status},</if>
+        </trim>
+        where tenant_id = #{tenantId}
+    </update>
+
+    <delete id="deleteSysTenantById" parameterType="Long">
+        delete from sys_tenant where tenant_id = #{tenantId}
+    </delete>
+
+    <delete id="deleteSysTenantByIds" parameterType="String">
+        delete from sys_tenant where tenant_id in
+        <foreach item="tenantId" collection="array" open="(" separator="," close=")">
+            #{tenantId}
+        </foreach>
+    </delete>
+</mapper>

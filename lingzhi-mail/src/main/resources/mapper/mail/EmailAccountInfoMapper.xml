@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lingzhi.crm.mail.mapper.EmailAccountInfoMapper">
+
+    <resultMap type="EmailAccountInfo" id="EmailAccountInfoResult">
+        <result property="emailId"    column="email_id"    />
+        <result property="emailAddress"    column="email_address"    />
+        <result property="emailPassword"    column="email_password"    />
+        <result property="emailServerType"    column="email_server_type"    />
+        <result property="enableFlag"    column="enable_flag"    />
+        <result property="receiveHost"    column="receive_host"    />
+        <result property="receivePort"    column="receive_port"    />
+        <result property="receiveProtocol"    column="receive_protocol"    />
+        <result property="receiveSsl"    column="receive_ssl"    />
+        <result property="sendPort"    column="send_port"    />
+        <result property="sendHost"    column="send_host"    />
+        <result property="sendSsl"    column="send_ssl"    />
+        <result property="userId"    column="user_id"    />
+        <result property="validFlag"    column="valid_flag"    />
+        <result property="deleteFlag"    column="delete_flag"    />
+        <result property="createdTime"    column="created_time"    />
+        <result property="createdUserName"    column="created_user_name"    />
+        <result property="createdUserAccount"    column="created_user_account"    />
+        <result property="updatedTime"    column="updated_time"    />
+        <result property="updatedUserName"    column="updated_user_name"    />
+        <result property="updatedUserAccount"    column="updated_user_account"    />
+    </resultMap>
+
+    <sql id="selectEmailAccountInfoVo">
+        select email_id, email_address, email_password, email_server_type, enable_flag, receive_host, receive_port, receive_protocol, receive_ssl, send_port, send_host, send_ssl, user_id, valid_flag, delete_flag, created_time, created_user_name, created_user_account, updated_time, updated_user_name, updated_user_account from email_account_info
+    </sql>
+
+    <select id="selectEmailAccountInfoList" parameterType="emailAccountInfo" resultType="com.lingzhi.crm.mail.vo.EmailAccountListOutVO">
+        select ea.email_id as emailId,ea.email_address as emailAddress,ea.enable_flag as enableFlag,
+               ea.user_id as userId,su.nick_name as userName
+        from email_account_info as ea
+        left join sys_user as su on su.user_id = ea.user_id
+
+        <where>
+            <if test="emailAddress != null  and emailAddress != ''"> and email_address = #{emailAddress}</if>
+            <if test="emailPassword != null  and emailPassword != ''"> and email_password = #{emailPassword}</if>
+            <if test="emailServerType != null  and emailServerType != ''"> and email_server_type = #{emailServerType}</if>
+            <if test="enableFlag != null  and enableFlag != ''"> and enable_flag = #{enableFlag}</if>
+            <if test="receiveHost != null  and receiveHost != ''"> and receive_host = #{receiveHost}</if>
+            <if test="receivePort != null  and receivePort != ''"> and receive_port = #{receivePort}</if>
+            <if test="receiveProtocol != null  and receiveProtocol != ''"> and receive_protocol = #{receiveProtocol}</if>
+            <if test="receiveSsl != null  and receiveSsl != ''"> and receive_ssl = #{receiveSsl}</if>
+            <if test="sendPort != null  and sendPort != ''"> and send_port = #{sendPort}</if>
+            <if test="sendHost != null  and sendHost != ''"> and send_host = #{sendHost}</if>
+            <if test="sendSsl != null  and sendSsl != ''"> and send_ssl = #{sendSsl}</if>
+            <if test="userId != null "> and user_id = #{userId}</if>
+            <if test="validFlag != null  and validFlag != ''"> and valid_flag = #{validFlag}</if>
+            <if test="deleteFlag != null  and deleteFlag != ''"> and delete_flag = #{deleteFlag}</if>
+            <if test="createdTime != null "> and created_time = #{createdTime}</if>
+            <if test="createdUserName != null  and createdUserName != ''"> and created_user_name like concat('%', #{createdUserName}, '%')</if>
+            <if test="createdUserAccount != null  and createdUserAccount != ''"> and created_user_account = #{createdUserAccount}</if>
+            <if test="updatedTime != null "> and updated_time = #{updatedTime}</if>
+            <if test="updatedUserName != null  and updatedUserName != ''"> and updated_user_name like concat('%', #{updatedUserName}, '%')</if>
+            <if test="updatedUserAccount != null  and updatedUserAccount != ''"> and updated_user_account = #{updatedUserAccount}</if>
+        </where>
+    </select>
+
+    <select id="selectEmailAccountInfoById" parameterType="Long" resultMap="EmailAccountInfoResult">
+        <include refid="selectEmailAccountInfoVo"/>
+        where email_id = #{emailId}
+    </select>
+
+    <insert id="insertEmailAccountInfo" parameterType="EmailAccountInfo" useGeneratedKeys="true" keyProperty="emailId">
+        insert into email_account_info
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="emailAddress != null">email_address,</if>
+            <if test="emailPassword != null">email_password,</if>
+            <if test="emailServerType != null">email_server_type,</if>
+            <if test="enableFlag != null">enable_flag,</if>
+            <if test="receiveHost != null">receive_host,</if>
+            <if test="receivePort != null">receive_port,</if>
+            <if test="receiveProtocol != null">receive_protocol,</if>
+            <if test="receiveSsl != null">receive_ssl,</if>
+            <if test="sendPort != null">send_port,</if>
+            <if test="sendHost != null">send_host,</if>
+            <if test="sendSsl != null">send_ssl,</if>
+            <if test="userId != null">user_id,</if>
+            <if test="validFlag != null">valid_flag,</if>
+            <if test="deleteFlag != null">delete_flag,</if>
+            <if test="createdTime != null">created_time,</if>
+            <if test="createdUserName != null">created_user_name,</if>
+            <if test="createdUserAccount != null">created_user_account,</if>
+            <if test="updatedTime != null">updated_time,</if>
+            <if test="updatedUserName != null">updated_user_name,</if>
+            <if test="updatedUserAccount != null">updated_user_account,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="emailAddress != null">#{emailAddress},</if>
+            <if test="emailPassword != null">#{emailPassword},</if>
+            <if test="emailServerType != null">#{emailServerType},</if>
+            <if test="enableFlag != null">#{enableFlag},</if>
+            <if test="receiveHost != null">#{receiveHost},</if>
+            <if test="receivePort != null">#{receivePort},</if>
+            <if test="receiveProtocol != null">#{receiveProtocol},</if>
+            <if test="receiveSsl != null">#{receiveSsl},</if>
+            <if test="sendPort != null">#{sendPort},</if>
+            <if test="sendHost != null">#{sendHost},</if>
+            <if test="sendSsl != null">#{sendSsl},</if>
+            <if test="userId != null">#{userId},</if>
+            <if test="validFlag != null">#{validFlag},</if>
+            <if test="deleteFlag != null">#{deleteFlag},</if>
+            <if test="createdTime != null">#{createdTime},</if>
+            <if test="createdUserName != null">#{createdUserName},</if>
+            <if test="createdUserAccount != null">#{createdUserAccount},</if>
+            <if test="updatedTime != null">#{updatedTime},</if>
+            <if test="updatedUserName != null">#{updatedUserName},</if>
+            <if test="updatedUserAccount != null">#{updatedUserAccount},</if>
+        </trim>
+    </insert>
+
+    <update id="updateEmailAccountInfo" parameterType="EmailAccountInfo">
+        update email_account_info
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="emailAddress != null">email_address = #{emailAddress},</if>
+            <if test="emailPassword != null">email_password = #{emailPassword},</if>
+            <if test="emailServerType != null">email_server_type = #{emailServerType},</if>
+            <if test="enableFlag != null">enable_flag = #{enableFlag},</if>
+            <if test="receiveHost != null">receive_host = #{receiveHost},</if>
+            <if test="receivePort != null">receive_port = #{receivePort},</if>
+            <if test="receiveProtocol != null">receive_protocol = #{receiveProtocol},</if>
+            <if test="receiveSsl != null">receive_ssl = #{receiveSsl},</if>
+            <if test="sendPort != null">send_port = #{sendPort},</if>
+            <if test="sendHost != null">send_host = #{sendHost},</if>
+            <if test="sendSsl != null">send_ssl = #{sendSsl},</if>
+            <if test="userId != null">user_id = #{userId},</if>
+            <if test="validFlag != null">valid_flag = #{validFlag},</if>
+            <if test="deleteFlag != null">delete_flag = #{deleteFlag},</if>
+            <if test="createdTime != null">created_time = #{createdTime},</if>
+            <if test="createdUserName != null">created_user_name = #{createdUserName},</if>
+            <if test="createdUserAccount != null">created_user_account = #{createdUserAccount},</if>
+            <if test="updatedTime != null">updated_time = #{updatedTime},</if>
+            <if test="updatedUserName != null">updated_user_name = #{updatedUserName},</if>
+            <if test="updatedUserAccount != null">updated_user_account = #{updatedUserAccount},</if>
+        </trim>
+        where email_id = #{emailId}
+    </update>
+
+    <update id="deleteEmailAccountInfoById" parameterType="Long">
+        update email_account_info set delete_flag = '1' where email_id = #{emailId}
+    </update>
+
+    <update id="deleteEmailAccountInfoByIds" parameterType="String">
+        update email_account_info set delete_flag = '1' where email_id in
+        <foreach item="emailId" collection="array" open="(" separator="," close=")">
+            #{emailId}
+        </foreach>
+    </update>
+
+    <update id="emailAccountBindChange" parameterType="com.lingzhi.crm.mail.vo.EmailAccountBindChangeInVO">
+        update email_account_info
+        set user_id = #{userId}
+        where email_id = #{emailId}
+    </update>
+</mapper>

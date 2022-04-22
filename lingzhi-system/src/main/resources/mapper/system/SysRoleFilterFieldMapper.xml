@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lingzhi.crm.system.mapper.SysRoleFilterFieldMapper">
+    
+    <resultMap type="SysRoleFilterField" id="SysRoleFilterFieldResult">
+        <result property="roleId"    column="role_id"    />
+        <result property="dataTableName"    column="data_table_name"    />
+        <result property="fieldName"    column="field_name"    />
+    </resultMap>
+
+    <sql id="selectSysRoleFilterFieldVo">
+        select role_id, data_table_name, field_name from sys_role_filter_field
+    </sql>
+
+    <select id="selectSysRoleFilterFieldList" parameterType="SysRoleFilterField" resultMap="SysRoleFilterFieldResult">
+        <include refid="selectSysRoleFilterFieldVo"/>
+        <where>  
+            <if test="roleId != null "> and role_id = #{roleId}</if>
+            <if test="dataTableName != null  and dataTableName != ''"> and data_table_name like concat('%', #{dataTableName}, '%')</if>
+            <if test="fieldName != null  and fieldName != ''"> and field_name like concat('%', #{fieldName}, '%')</if>
+        </where>
+    </select>
+    
+    <select id="selectSysRoleFilterFieldById" parameterType="Long" resultMap="SysRoleFilterFieldResult">
+        <include refid="selectSysRoleFilterFieldVo"/>
+        where role_id = #{roleId}
+    </select>
+        
+    <insert id="insertSysRoleFilterField" parameterType="SysRoleFilterField">
+        insert into sys_role_filter_field
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="roleId != null">role_id,</if>
+            <if test="dataTableName != null">data_table_name,</if>
+            <if test="fieldName != null">field_name,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="roleId != null">#{roleId},</if>
+            <if test="dataTableName != null">#{dataTableName},</if>
+            <if test="fieldName != null">#{fieldName},</if>
+         </trim>
+    </insert>
+
+    <update id="updateSysRoleFilterField" parameterType="SysRoleFilterField">
+        update sys_role_filter_field
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="dataTableName != null">data_table_name = #{dataTableName},</if>
+            <if test="fieldName != null">field_name = #{fieldName},</if>
+        </trim>
+        where role_id = #{roleId}
+    </update>
+
+    <delete id="deleteSysRoleFilterFieldById" parameterType="Long">
+        delete from sys_role_filter_field where role_id = #{roleId}
+    </delete>
+
+    <delete id="deleteSysRoleFilterFieldByIds" parameterType="String">
+        delete from sys_role_filter_field where role_id in 
+        <foreach item="roleId" collection="array" open="(" separator="," close=")">
+            #{roleId}
+        </foreach>
+    </delete>
+
+    <select id="getFilterFieldNameListByRoleId" resultType="string">
+        SELECT field_name FROM sys_role_filter_field WHERE role_id = #{roleId}
+    </select>
+
+    <insert id="insertRoleFilterFieldBatch" parameterType="list">
+        insert into sys_role_filter_field(role_id, field_name) values
+        <foreach item="item" index="index" collection="filterFieldList" separator=",">
+            (#{item.roleId},#{item.fieldName})
+        </foreach>
+    </insert>
+</mapper>

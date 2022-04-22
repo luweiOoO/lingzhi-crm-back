@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lingzhi.crm.order.mapper.ProductSmallOrderDetailMapper">
+    
+    <resultMap type="com.lingzhi.crm.order.domin.ProductSmallOrderDetail" id="ProductSmallOrderDetailResult">
+        <result property="id"    column="id"    />
+        <result property="orderId"    column="order_id"    />
+        <result property="orderNo"    column="order_no"    />
+        <result property="productName"    column="product_name"    />
+        <result property="productLength"    column="product_length"    />
+        <result property="productColour"    column="product_colour"    />
+        <result property="procuctModel"    column="procuct_model"    />
+        <result property="productStandard"    column="product_standard"    />
+        <result property="productNum"    column="product_num"    />
+        <result property="productWeight"    column="product_weight"    />
+        <result property="productCostUnitPriceRmb"    column="product_cost_unit_price_rmb"    />
+        <result property="productSellUnitPriceDollar"    column="product_sell_unit_price_dollar"    />
+        <result property="productSellAmountDollar"    column="product_sell_amount_dollar"    />
+        <result property="createId"    column="create_id"    />
+        <result property="createName"    column="create_name"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateId"    column="update_id"    />
+        <result property="updateName"    column="update_name"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="remark"    column="remark"    />
+        <result property="delFlag"    column="del_flag"    />
+    </resultMap>
+
+    <sql id="selectProductSmallOrderDetailVo">
+        select id, order_id, order_no, product_name, product_length, product_colour, procuct_model, product_standard, product_num, product_weight, product_cost_unit_price_rmb, product_sell_unit_price_dollar, product_sell_amount_dollar, create_id, create_name, create_time, update_id, update_name, update_time, remark, del_flag from product_small_order_detail
+    </sql>
+
+    <select id="selectProductSmallOrderDetailList" parameterType="com.lingzhi.crm.order.domin.ProductSmallOrderDetail" resultMap="ProductSmallOrderDetailResult">
+        <include refid="selectProductSmallOrderDetailVo"/>
+        <where>  
+            <if test="orderId != null "> and order_id = #{orderId}</if>
+            <if test="orderNo != null  and orderNo != ''"> and order_no = #{orderNo}</if>
+            <if test="productName != null  and productName != ''"> and product_name like concat('%', #{productName}, '%')</if>
+            <if test="productLength != null  and productLength != ''"> and product_length = #{productLength}</if>
+            <if test="productColour != null  and productColour != ''"> and product_colour = #{productColour}</if>
+            <if test="procuctModel != null  and procuctModel != ''"> and procuct_model = #{procuctModel}</if>
+            <if test="productStandard != null  and productStandard != ''"> and product_standard = #{productStandard}</if>
+            <if test="productNum != null "> and product_num = #{productNum}</if>
+            <if test="productWeight != null "> and product_weight = #{productWeight}</if>
+            <if test="productCostUnitPriceRmb != null "> and product_cost_unit_price_rmb = #{productCostUnitPriceRmb}</if>
+            <if test="productSellUnitPriceDollar != null "> and product_sell_unit_price_dollar = #{productSellUnitPriceDollar}</if>
+            <if test="productSellAmountDollar != null "> and product_sell_amount_dollar = #{productSellAmountDollar}</if>
+            <if test="createId != null "> and create_id = #{createId}</if>
+            <if test="createName != null  and createName != ''"> and create_name like concat('%', #{createName}, '%')</if>
+            <if test="updateId != null "> and update_id = #{updateId}</if>
+            <if test="updateName != null  and updateName != ''"> and update_name like concat('%', #{updateName}, '%')</if>
+        </where>
+    </select>
+    
+    <select id="selectProductSmallOrderDetailById" parameterType="Long" resultMap="ProductSmallOrderDetailResult">
+        <include refid="selectProductSmallOrderDetailVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertProductSmallOrderDetail" parameterType="com.lingzhi.crm.order.domin.ProductSmallOrderDetail" useGeneratedKeys="true" keyProperty="id">
+        insert into product_small_order_detail
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="orderId != null">order_id,</if>
+            <if test="orderNo != null">order_no,</if>
+            <if test="productName != null">product_name,</if>
+            <if test="productLength != null">product_length,</if>
+            <if test="productColour != null">product_colour,</if>
+            <if test="procuctModel != null">procuct_model,</if>
+            <if test="productStandard != null">product_standard,</if>
+            <if test="productNum != null">product_num,</if>
+            <if test="productWeight != null">product_weight,</if>
+            <if test="productCostUnitPriceRmb != null">product_cost_unit_price_rmb,</if>
+            <if test="productSellUnitPriceDollar != null">product_sell_unit_price_dollar,</if>
+            <if test="productSellAmountDollar != null">product_sell_amount_dollar,</if>
+            <if test="createId != null">create_id,</if>
+            <if test="createName != null">create_name,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateId != null">update_id,</if>
+            <if test="updateName != null">update_name,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="remark != null">remark,</if>
+            <if test="delFlag != null">del_flag,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="orderId != null">#{orderId},</if>
+            <if test="orderNo != null">#{orderNo},</if>
+            <if test="productName != null">#{productName},</if>
+            <if test="productLength != null">#{productLength},</if>
+            <if test="productColour != null">#{productColour},</if>
+            <if test="procuctModel != null">#{procuctModel},</if>
+            <if test="productStandard != null">#{productStandard},</if>
+            <if test="productNum != null">#{productNum},</if>
+            <if test="productWeight != null">#{productWeight},</if>
+            <if test="productCostUnitPriceRmb != null">#{productCostUnitPriceRmb},</if>
+            <if test="productSellUnitPriceDollar != null">#{productSellUnitPriceDollar},</if>
+            <if test="productSellAmountDollar != null">#{productSellAmountDollar},</if>
+            <if test="createId != null">#{createId},</if>
+            <if test="createName != null">#{createName},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateId != null">#{updateId},</if>
+            <if test="updateName != null">#{updateName},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="remark != null">#{remark},</if>
+            <if test="delFlag != null">#{delFlag},</if>
+         </trim>
+    </insert>
+
+    <update id="updateProductSmallOrderDetail" parameterType="com.lingzhi.crm.order.domin.ProductSmallOrderDetail">
+        update product_small_order_detail
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="orderId != null">order_id = #{orderId},</if>
+            <if test="orderNo != null">order_no = #{orderNo},</if>
+            <if test="productName != null">product_name = #{productName},</if>
+            <if test="productLength != null">product_length = #{productLength},</if>
+            <if test="productColour != null">product_colour = #{productColour},</if>
+            <if test="procuctModel != null">procuct_model = #{procuctModel},</if>
+            <if test="productStandard != null">product_standard = #{productStandard},</if>
+            <if test="productNum != null">product_num = #{productNum},</if>
+            <if test="productWeight != null">product_weight = #{productWeight},</if>
+            <if test="productCostUnitPriceRmb != null">product_cost_unit_price_rmb = #{productCostUnitPriceRmb},</if>
+            <if test="productSellUnitPriceDollar != null">product_sell_unit_price_dollar = #{productSellUnitPriceDollar},</if>
+            <if test="productSellAmountDollar != null">product_sell_amount_dollar = #{productSellAmountDollar},</if>
+            <if test="createId != null">create_id = #{createId},</if>
+            <if test="createName != null">create_name = #{createName},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateId != null">update_id = #{updateId},</if>
+            <if test="updateName != null">update_name = #{updateName},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="remark != null">remark = #{remark},</if>
+            <if test="delFlag != null">del_flag = #{delFlag},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteProductSmallOrderDetailById" parameterType="Long">
+        delete from product_small_order_detail where id = #{id}
+    </delete>
+
+    <delete id="deleteProductSmallOrderDetailByIds" parameterType="String">
+        delete from product_small_order_detail where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+    <insert id="insertOrderDetailBatch" useGeneratedKeys="true" keyProperty="id">
+        insert into product_small_order_detail
+        (order_id,
+        order_no,
+        product_name,
+        product_length,
+        product_colour,
+        procuct_model,
+        product_standard,
+        product_num,
+        product_weight,
+        product_cost_unit_price_rmb,
+        product_sell_unit_price_dollar,
+        product_sell_amount_dollar,
+        create_name,
+        create_time,
+        remark,
+        del_flag
+        )
+        values
+        <foreach collection="orderDetailList" item="item" separator="," index="index">
+            ( #{item.orderId},
+            #{item.orderNo},
+            #{item.productName},
+            #{item.productLength},
+            #{item.productColour},
+            #{item.procuctModel},
+            #{item.productStandard},
+            #{item.productNum},
+            #{item.productWeight},
+            #{item.productCostUnitPriceRmb},
+            #{item.productSellUnitPriceDollar},
+            #{item.productSellAmountDollar},
+            #{item.createName},
+            #{item.createTime},
+            #{item.remark},
+            #{item.delFlag}
+            )
+        </foreach>
+    </insert>
+</mapper>
