@@ -1,6 +1,8 @@
 package com.lingzhi.crm.customer.service;
 
 import java.util.List;
+
+import com.lingzhi.crm.common.domain.ProductSalesManOrderImportEntity;
 import com.lingzhi.crm.customer.domain.CustomerCompanyContacts;
 import com.lingzhi.crm.customer.vo.CompanyCustomerContactsAddInVO;
 import com.lingzhi.crm.customer.vo.CompanyCustomerContactsDetailOutVO;
@@ -97,5 +99,10 @@ public interface ICustomerCompanyContactsService
      * @return
      */
     List<Long> getContactIdListByCustomerId(List<Long> customerIdList);
+
+    /**
+     * 新增或更新公司联系人
+     */
+    void insertOrUpdateCustomerContact(ProductSalesManOrderImportEntity entity);
 
 }

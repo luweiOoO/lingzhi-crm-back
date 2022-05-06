@@ -88,4 +88,11 @@ public interface ICustomerCompanyInfoService
      * @return
      */
     List<CompanyCustomerDetailOutVO> selectCustomerCompanyInfoDetailList(CustomerCompanyInfo companyInfo);
+
+    /**
+     * 根据公司名称查询公司信息
+     * @param companyName
+     * @return
+     */
+    CustomerCompanyInfo selectCompanyInfoByName(String companyName);
 }

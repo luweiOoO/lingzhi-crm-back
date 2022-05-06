@@ -23,6 +23,18 @@
             <artifactId>lingzhi-common</artifactId>
         </dependency>
 
+        <!-- System系统模块 -->
+        <dependency>
+            <groupId>com.lingzhi.crm</groupId>
+            <artifactId>lingzhi-system</artifactId>
+        </dependency>
+
+        <!-- customer客户模块 -->
+        <dependency>
+            <groupId>com.lingzhi.crm</groupId>
+            <artifactId>lingzhi-customer</artifactId>
+        </dependency>
+
     </dependencies>
 
 

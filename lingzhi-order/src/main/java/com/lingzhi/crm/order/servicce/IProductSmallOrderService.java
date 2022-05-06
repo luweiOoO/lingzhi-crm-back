@@ -1,6 +1,8 @@
 package com.lingzhi.crm.order.servicce;
 
+import com.lingzhi.crm.common.domain.ProductSalesManOrderImportEntity;
 import com.lingzhi.crm.order.domin.ProductSmallOrder;
+import com.lingzhi.crm.order.dto.SalesmanOrderSearchParam;
 import com.lingzhi.crm.order.dto.SmallOrderSearchParamsDto;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -80,4 +82,11 @@ public interface IProductSmallOrderService
      * @param productSmallOrder waybillNos为输入的运单号(多个时用逗号隔开)
      */
     public void bindWaybill(ProductSmallOrder productSmallOrder) throws Exception;
+
+    /**
+     * 查询业务员订单列表信息
+     * @param param
+     * @return
+     */
+    public List<ProductSalesManOrderImportEntity> getSalesManOrderList(SalesmanOrderSearchParam param);
 }

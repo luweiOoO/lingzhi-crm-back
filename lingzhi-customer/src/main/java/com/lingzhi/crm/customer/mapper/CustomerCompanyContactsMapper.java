@@ -2,6 +2,8 @@ package com.lingzhi.crm.customer.mapper;
 
 import com.lingzhi.crm.customer.domain.CustomerCompanyContacts;
 import com.lingzhi.crm.customer.vo.CompanyCustomerContactsDetailOutVO;
+import com.lingzhi.crm.customer.vo.CompanyCustomerContactsDto;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -74,4 +76,12 @@ public interface CustomerCompanyContactsMapper
      * @return
      */
     List<Long> selectContactIdListByCustomerIdList(List<Long> customerIdList);
+
+    /**
+     * 根据公司名称和联系人名称查询联系人详情
+     * @param companyName 公司名称
+     * @param contactName 联系人名称
+     * @return
+     */
+    CompanyCustomerContactsDto getContactsDetailByCompanyNameAndContactName(@Param("companyName") String companyName, @Param("contactName") String contactName);
 }

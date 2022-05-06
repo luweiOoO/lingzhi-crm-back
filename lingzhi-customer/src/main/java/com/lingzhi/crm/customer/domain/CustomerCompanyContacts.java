@@ -2,6 +2,7 @@ package com.lingzhi.crm.customer.domain;
 
 import java.util.Date;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import lombok.Data;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import com.lingzhi.crm.common.annotation.Excel;
@@ -13,6 +14,7 @@ import com.lingzhi.crm.common.core.domain.BaseEntity;
  * @author ruoyi
  * @date 2021-06-03
  */
+@Data
 public class CustomerCompanyContacts extends BaseEntity
 {
     private static final long serialVersionUID = 1L;
@@ -23,6 +25,10 @@ public class CustomerCompanyContacts extends BaseEntity
     /** 所属公司id */
     @Excel(name = "所属公司id")
     private Long customerCompanyId;
+
+    /** 姓名 */
+    @Excel(name = "名称")
+    private String contactName;
 
     /** 昵称 */
     @Excel(name = "昵称")
@@ -98,211 +104,4 @@ public class CustomerCompanyContacts extends BaseEntity
     /** 所属租户id */
     @Excel(name = "所属租户id")
     private Long tenantId;
-
-    public void setId(Long id) 
-    {
-        this.id = id;
-    }
-
-    public Long getId() 
-    {
-        return id;
-    }
-    public void setCustomerCompanyId(Long customerCompanyId) 
-    {
-        this.customerCompanyId = customerCompanyId;
-    }
-
-    public Long getCustomerCompanyId() 
-    {
-        return customerCompanyId;
-    }
-    public void setContactNickName(String contactNickName) 
-    {
-        this.contactNickName = contactNickName;
-    }
-
-    public String getContactNickName() 
-    {
-        return contactNickName;
-    }
-    public void setContactEmail(String contactEmail) 
-    {
-        this.contactEmail = contactEmail;
-    }
-
-    public String getContactEmail() 
-    {
-        return contactEmail;
-    }
-    public void setContactRankKey(String contactRankKey) 
-    {
-        this.contactRankKey = contactRankKey;
-    }
-
-    public String getContactRankKey() 
-    {
-        return contactRankKey;
-    }
-    public void setContactPosition(String contactPosition) 
-    {
-        this.contactPosition = contactPosition;
-    }
-
-    public String getContactPosition() 
-    {
-        return contactPosition;
-    }
-    public void setContactBirthday(Date contactBirthday) 
-    {
-        this.contactBirthday = contactBirthday;
-    }
-
-    public Date getContactBirthday() 
-    {
-        return contactBirthday;
-    }
-    public void setContactGenderKey(String contactGenderKey) 
-    {
-        this.contactGenderKey = contactGenderKey;
-    }
-
-    public String getContactGenderKey() 
-    {
-        return contactGenderKey;
-    }
-    public void setRemarks(String remarks) 
-    {
-        this.remarks = remarks;
-    }
-
-    public String getRemarks() 
-    {
-        return remarks;
-    }
-    public void setImageUrl(String imageUrl) 
-    {
-        this.imageUrl = imageUrl;
-    }
-
-    public String getImageUrl() 
-    {
-        return imageUrl;
-    }
-    public void setContactAddress(String contactAddress) 
-    {
-        this.contactAddress = contactAddress;
-    }
-
-    public String getContactAddress() 
-    {
-        return contactAddress;
-    }
-    public void setContactEamilPhone(String contactEamilPhone) 
-    {
-        this.contactEamilPhone = contactEamilPhone;
-    }
-
-    public String getContactEamilPhone() 
-    {
-        return contactEamilPhone;
-    }
-    public void setCreatedUserName(String createdUserName) 
-    {
-        this.createdUserName = createdUserName;
-    }
-
-    public String getCreatedUserName() 
-    {
-        return createdUserName;
-    }
-    public void setCreatedUserAccount(String createdUserAccount) 
-    {
-        this.createdUserAccount = createdUserAccount;
-    }
-
-    public String getCreatedUserAccount() 
-    {
-        return createdUserAccount;
-    }
-    public void setCreatedTime(Date createdTime) 
-    {
-        this.createdTime = createdTime;
-    }
-
-    public Date getCreatedTime() 
-    {
-        return createdTime;
-    }
-    public void setUpdatedUserName(String updatedUserName) 
-    {
-        this.updatedUserName = updatedUserName;
-    }
-
-    public String getUpdatedUserName() 
-    {
-        return updatedUserName;
-    }
-    public void setUpdatedUserAccount(String updatedUserAccount) 
-    {
-        this.updatedUserAccount = updatedUserAccount;
-    }
-
-    public String getUpdatedUserAccount() 
-    {
-        return updatedUserAccount;
-    }
-    public void setUpdatedTime(Date updatedTime) 
-    {
-        this.updatedTime = updatedTime;
-    }
-
-    public Date getUpdatedTime() 
-    {
-        return updatedTime;
-    }
-    public void setIsDelete(Integer isDelete) 
-    {
-        this.isDelete = isDelete;
-    }
-
-    public Integer getIsDelete() 
-    {
-        return isDelete;
-    }
-    public void setTenantId(Long tenantId) 
-    {
-        this.tenantId = tenantId;
-    }
-
-    public Long getTenantId() 
-    {
-        return tenantId;
-    }
-
-    @Override
-    public String toString() {
-        return new ToStringBuilder(this,ToStringStyle.MULTI_LINE_STYLE)
-            .append("id", getId())
-            .append("customerCompanyId", getCustomerCompanyId())
-            .append("contactNickName", getContactNickName())
-            .append("contactEmail", getContactEmail())
-            .append("contactRankKey", getContactRankKey())
-            .append("contactPosition", getContactPosition())
-            .append("contactBirthday", getContactBirthday())
-            .append("contactGenderKey", getContactGenderKey())
-            .append("remarks", getRemarks())
-            .append("imageUrl", getImageUrl())
-            .append("contactAddress", getContactAddress())
-            .append("contactEamilPhone", getContactEamilPhone())
-            .append("createdUserName", getCreatedUserName())
-            .append("createdUserAccount", getCreatedUserAccount())
-            .append("createdTime", getCreatedTime())
-            .append("updatedUserName", getUpdatedUserName())
-            .append("updatedUserAccount", getUpdatedUserAccount())
-            .append("updatedTime", getUpdatedTime())
-            .append("isDelete", getIsDelete())
-            .append("tenantId", getTenantId())
-            .toString();
-    }
 }

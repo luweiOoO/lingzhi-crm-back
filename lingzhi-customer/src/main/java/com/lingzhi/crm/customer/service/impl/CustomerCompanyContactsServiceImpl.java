@@ -1,20 +1,23 @@
 package com.lingzhi.crm.customer.service.impl;
 
-import java.util.Date;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import com.lingzhi.crm.common.core.domain.model.LoginUser;
+import com.lingzhi.crm.common.domain.ProductSalesManOrderImportEntity;
 import com.lingzhi.crm.common.utils.SecurityUtils;
+import com.lingzhi.crm.customer.domain.CustomerCompanyInfo;
 import com.lingzhi.crm.customer.domain.CustomerContactsPhone;
 import com.lingzhi.crm.customer.domain.CustomerContactsSocialPlatform;
 import com.lingzhi.crm.customer.service.ICustomerCompanyContactsService;
+import com.lingzhi.crm.customer.service.ICustomerCompanyInfoService;
 import com.lingzhi.crm.customer.service.ICustomerContactsPhoneService;
 import com.lingzhi.crm.customer.service.ICustomerContactsSocialPlatformService;
+import com.lingzhi.crm.customer.vo.CompanyCustomerAddInVO;
 import com.lingzhi.crm.customer.vo.CompanyCustomerContactsAddInVO;
 import com.lingzhi.crm.customer.vo.CompanyCustomerContactsDetailOutVO;
+import com.lingzhi.crm.customer.vo.CompanyCustomerContactsDto;
+import org.checkerframework.checker.units.qual.C;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -37,6 +40,8 @@ public class CustomerCompanyContactsServiceImpl implements ICustomerCompanyConta
     private ICustomerContactsPhoneService contactsPhoneService;
     @Autowired
     private ICustomerContactsSocialPlatformService contactsSocialPlatformService;
+    @Autowired
+    private ICustomerCompanyInfoService customerCompanyInfoService;
 
     /**
      * 查询客户公司联系人信息
@@ -254,6 +259,47 @@ public class CustomerCompanyContactsServiceImpl implements ICustomerCompanyConta
             contactIdList = customerCompanyContactsMapper.selectContactIdListByCustomerIdList(customerIdList);
         }
         return contactIdList;
+    }
+
+    @Override
+    public void insertOrUpdateCustomerContact(ProductSalesManOrderImportEntity entity) {
+        //1、根据公司名称查询是否已录入该公司
+        CustomerCompanyInfo companyInfo = customerCompanyInfoService.selectCompanyInfoByName(entity.getCustomerCompanyName());
+        //若公司为空 则需新增公司及联系人信息
+        if(companyInfo == null){
+            CompanyCustomerAddInVO customerAddInVO = new CompanyCustomerAddInVO();
+            customerAddInVO.setCompanyName(entity.getCustomerCompanyName());
+            CompanyCustomerContactsAddInVO contactsAddInVO = new CompanyCustomerContactsAddInVO();
+            contactsAddInVO.setContactAddress(entity.getCustomerAddress());
+            contactsAddInVO.setContactNickName(entity.getCustomerNickName());
+            contactsAddInVO.setContactName(entity.getCustomerName());
+            CustomerContactsPhone contactsPhone = new CustomerContactsPhone();
+            contactsPhone.setPhoneNumber(entity.getCustomerPhone());
+            contactsAddInVO.setContactsPhoneList(Collections.singletonList(contactsPhone));
+            List<CompanyCustomerContactsAddInVO> contactsList = Collections.singletonList(contactsAddInVO);
+            customerAddInVO.setContactsList(contactsList);
+            customerCompanyInfoService.addCompanyAndContacts(customerAddInVO);
+        }else {
+            //根据客户名称和联系人姓名查询该公司所属联系人是否为空
+            CustomerCompanyContacts companyContacts = this.getContactDetailByCompanyNameAndContactName(entity.getCustomerCompanyName(),entity.getCustomerName());
+            if(companyContacts == null){
+                //若联系人信息为空 则新增联系人
+            }else {
+                //若联系人信息不为空，则更新联系人信息
+            }
+        }
+
+    }
+
+    /**
+     * 根据公司名称和联系人名称查询客户详情
+     * @param companyName 公司名称
+     * @param contactName 联系人名称
+     * @return
+     */
+    private CompanyCustomerContactsDto getContactDetailByCompanyNameAndContactName(String companyName,String contactName){
+        CompanyCustomerContactsDto contactsAndPhoneDto = customerCompanyContactsMapper.getContactsDetailByCompanyNameAndContactName(companyName, contactName);
+        return contactsAndPhoneDto;
     }
 
 }

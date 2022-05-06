@@ -8,12 +8,14 @@ import java.util.*;
 
 import com.lingzhi.crm.common.annotation.Excel;
 import com.lingzhi.crm.common.core.text.Convert;
+import com.lingzhi.crm.common.domain.ProductSalesManOrderImportEntity;
 import com.lingzhi.crm.common.utils.DateUtils;
 import com.lingzhi.crm.common.utils.StringUtils;
 import com.lingzhi.crm.common.utils.poi.ExcelUtil;
 import com.lingzhi.crm.common.utils.reflect.ReflectUtils;
 import com.lingzhi.crm.order.domin.ProductSmallOrder;
 import com.lingzhi.crm.order.domin.ProductSmallOrderDetail;
+import com.lingzhi.crm.order.dto.SalesmanOrderSearchParam;
 import com.lingzhi.crm.order.dto.SmallOrderSearchParamsDto;
 import com.lingzhi.crm.order.servicce.IProductSmallOrderDetailService;
 import com.lingzhi.crm.order.servicce.IProductSmallOrderService;
@@ -483,6 +485,12 @@ public class ProductSmallOrderServiceImpl implements IProductSmallOrderService
             }
 
         }
+    }
+
+    @Override
+    public List<ProductSalesManOrderImportEntity> getSalesManOrderList(SalesmanOrderSearchParam param) {
+        List<ProductSalesManOrderImportEntity> productSalesManOrderImportEntities = productSmallOrderMapper.selectSalesManOrderList(param);
+        return productSalesManOrderImportEntities;
     }
 
 

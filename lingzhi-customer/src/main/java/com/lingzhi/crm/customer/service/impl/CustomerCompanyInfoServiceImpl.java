@@ -188,4 +188,16 @@ public class CustomerCompanyInfoServiceImpl implements ICustomerCompanyInfoServi
         });
         return detailOutVOList;
     }
+
+    @Override
+    public CustomerCompanyInfo selectCompanyInfoByName(String companyName) {
+        CustomerCompanyInfo companyInfoParam = new CustomerCompanyInfo();
+        companyInfoParam.setCompanyName(companyName);
+        List<CustomerCompanyInfo> companyInfoList = customerCompanyInfoMapper.selectCustomerCompanyInfoList(companyInfoParam);
+        if(companyInfoList != null && companyInfoList.size() > 0){
+            return companyInfoList.get(0);
+        }else {
+            return null;
+        }
+    }
 }

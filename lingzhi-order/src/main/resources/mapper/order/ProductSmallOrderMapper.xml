@@ -188,4 +188,21 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             #{id}
         </foreach>
     </delete>
+
+    <select id="selectSalesManOrderList" parameterType="com.lingzhi.crm.order.dto.SalesmanOrderSearchParam" resultType="com.lingzhi.crm.common.domain.ProductSalesManOrderImportEntity">
+        SELECT order_sales_name AS salesmanName,order_no AS orderNo,payment_channel AS paymentChannel,goods_amount_price_dollar AS goodsAmountPriceDollar,arrival_money_percent AS arrivalMoneyPercent,customer_name AS customerName FROM product_small_order
+        WHERE del_flag = 'N'
+        <if test="orderNo != null and orderNo != ''">
+            AND order_no = #{orderNo}
+        </if>
+        <if test="customerName != null and customerName != ''">
+            AND customer_name = #{customerName}
+        </if>
+        <if test="orderSalesName != null and orderSalesName != ''">
+            AND order_sales_name = #{orderSalesName}
+        </if>
+        <if test="waybillNo != null and waybillNo != ''">
+            AND waybillNos like concat('%',#{waybillNo},'%')
+        </if>
+    </select>
 </mapper>

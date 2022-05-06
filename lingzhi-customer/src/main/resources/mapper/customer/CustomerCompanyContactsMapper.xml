@@ -7,6 +7,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <resultMap type="CustomerCompanyContacts" id="CustomerCompanyContactsResult">
         <result property="id"    column="id"    />
         <result property="customerCompanyId"    column="customer_company_id"    />
+        <result property="contactName"      column="contact_name"  />
         <result property="contactNickName"    column="contact_nick_name"    />
         <result property="contactEmail"    column="contact_email"    />
         <result property="contactRankKey"    column="contact_rank_key"    />
@@ -27,8 +28,27 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="tenantId"    column="tenant_id"    />
     </resultMap>
 
+    <resultMap id="ContactsPhoneResult" type="com.lingzhi.crm.customer.vo.CompanyCustomerContactsDto" extends="CustomerCompanyContactsResult">
+        <collection property="contactsPhoneList" ofType="com.lingzhi.crm.customer.domain.CustomerContactsPhone">
+            <result property="id"    column="phone_id"    />
+            <result property="regionId"    column="region_id"    />
+            <result property="regionChineseName"    column="region_chinese_name"    />
+            <result property="regionPhonePrefix"    column="region_phone_prefix"    />
+            <result property="phoneNumber"    column="phone_number"    />
+            <result property="contactId"    column="contact_id"    />
+            <result property="createdUserName"    column="created_user_name"    />
+            <result property="createdUserAccount"    column="created_user_account"    />
+            <result property="createdTime"    column="created_time"    />
+            <result property="updatedUserName"    column="updated_user_name"    />
+            <result property="updatedUserAccount"    column="updated_user_account"    />
+            <result property="updatedTime"    column="updated_time"    />
+            <result property="isDelete"    column="is_delete"    />
+            <result property="tenantId"    column="tenant_id"    />
+        </collection>
+    </resultMap>
+
     <sql id="selectCustomerCompanyContactsVo">
-        select id, customer_company_id, contact_nick_name, contact_email, contact_rank_key, contact_position, contact_birthday, contact_gender_key, remarks, image_url, contact_address, contact_eamil_phone, created_user_name, created_user_account, created_time, updated_user_name, updated_user_account, updated_time, is_delete, tenant_id from customer_company_contacts
+        select id, customer_company_id, contact_name, contact_nick_name, contact_email, contact_rank_key, contact_position, contact_birthday, contact_gender_key, remarks, image_url, contact_address, contact_eamil_phone, created_user_name, created_user_account, created_time, updated_user_name, updated_user_account, updated_time, is_delete, tenant_id from customer_company_contacts
     </sql>
 
     <select id="selectCustomerCompanyContactsList" parameterType="CustomerCompanyContacts" resultMap="CustomerCompanyContactsResult">
@@ -36,6 +56,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <where>
             is_delete = '0'
             <if test="customerCompanyId != null "> and customer_company_id = #{customerCompanyId}</if>
+            <if test="contactName != null and contactName != ''">and contact_name = #{contactName}</if>
             <if test="contactNickName != null  and contactNickName != ''"> and contact_nick_name like concat('%', #{contactNickName}, '%')</if>
             <if test="contactEmail != null  and contactEmail != ''"> and contact_email = #{contactEmail}</if>
             <if test="contactRankKey != null  and contactRankKey != ''"> and contact_rank_key = #{contactRankKey}</if>
@@ -65,6 +86,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         insert into customer_company_contacts
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="customerCompanyId != null">customer_company_id,</if>
+            <if test="contactName != null">contact_name,</if>
             <if test="contactNickName != null">contact_nick_name,</if>
             <if test="contactEmail != null">contact_email,</if>
             <if test="contactRankKey != null">contact_rank_key,</if>
@@ -86,6 +108,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
          </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="customerCompanyId != null">#{customerCompanyId},</if>
+            <if test="contactName != null">#{contactName},</if>
             <if test="contactNickName != null">#{contactNickName},</if>
             <if test="contactEmail != null">#{contactEmail},</if>
             <if test="contactRankKey != null">#{contactRankKey},</if>
@@ -111,6 +134,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         update customer_company_contacts
         <trim prefix="SET" suffixOverrides=",">
             <if test="customerCompanyId != null">customer_company_id = #{customerCompanyId},</if>
+            <if test="contactName != null">contact_name = #{contactName},</if>
             <if test="contactNickName != null">contact_nick_name = #{contactNickName},</if>
             <if test="contactEmail != null">contact_email = #{contactEmail},</if>
             <if test="contactRankKey != null">contact_rank_key = #{contactRankKey},</if>
@@ -145,7 +169,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </update>
 
     <select id="getContactsDetailByCompanyId" resultType="com.lingzhi.crm.customer.vo.CompanyCustomerContactsDetailOutVO" parameterType="long">
-        select ccc.id as id,ccc.customer_company_id as customerCompanyId,ccc.contact_nick_name as contactNickName,ccc.contact_email as contactEmail,
+        select ccc.id as id,ccc.customer_company_id as customerCompanyId,ccc.contact_name as contactName,ccc.contact_nick_name as contactNickName,ccc.contact_email as contactEmail,
                ccc.contact_rank_key as contactRankKey,ccc.contact_position as contactPosition,ccc.contact_birthday as contactBirthday,
                ccc.contact_gender_key as contactGenderKey,ccc.remarks as remarks,ccc.image_url as imageUrl,ccc.contact_address as contactAddress,
                ccc.contact_eamil_phone as contact_eamil_phone,ccc.created_user_name as createdUserName,ccc.created_user_account as createdUserAccount,
@@ -159,5 +183,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <foreach item="id" collection="list" open="(" separator="," close=")">
             #{id}
         </foreach>
+    </select>
+
+    <select id="getContactsDetailByCompanyNameAndContactName" resultMap="ContactsPhoneResult">
+        SELECT ccc.id,ccc.customer_company_id,ccc.contact_nick_name,ccc.contact_name,ccc.contact_email,ccc.contact_rank_key,
+        ccc.contact_position,ccc.contact_birthday,ccc.contact_gender_key,ccc.remarks,ccc.image_url,ccc.contact_address,
+        ccc.contact_eamil_phone,ccc.created_user_name,ccc.created_user_account,ccc.created_time,ccc.is_delete,ccc.tenant_id
+        ccp.id as phone_id,ccp.region_id,ccp.region_chinese_name,ccp.region_phone_prefix,ccp.phone_number,ccp.contact_id,ccp.is_delete,ccp.tenant_id FROM customer_company_contacts AS ccc left join customer_company_info cci ON ccc.customer_company_id = cci.id
+        left join customer_contacts_phone ccp on ccp.contact_id = ccc.id
+        where ccc.contact_name = #{contactName} and cci.company_name = #{companyName}
     </select>
 </mapper>

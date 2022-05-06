@@ -1,6 +1,8 @@
 package com.lingzhi.crm.order.mapper;
 
+import com.lingzhi.crm.common.domain.ProductSalesManOrderImportEntity;
 import com.lingzhi.crm.order.domin.ProductSmallOrder;
+import com.lingzhi.crm.order.dto.SalesmanOrderSearchParam;
 import com.lingzhi.crm.order.dto.SmallOrderSearchParamsDto;
 
 import java.util.List;
@@ -60,4 +62,11 @@ public interface ProductSmallOrderMapper
      * @return 结果
      */
     public int deleteProductSmallOrderByIds(Long[] ids);
+
+    /**
+     * 查询业务员订单信息
+     * @param param
+     * @return
+     */
+    public List<ProductSalesManOrderImportEntity> selectSalesManOrderList(SalesmanOrderSearchParam param);
 }
