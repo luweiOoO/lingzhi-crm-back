@@ -7,6 +7,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <resultMap type="com.lingzhi.crm.order.domin.ProductSmallOrder" id="ProductSmallOrderResult">
         <result property="id"    column="id"    />
         <result property="orderNo"    column="order_no"    />
+        <result property="orderStatus"  column="order_status"/>
+        <result property="paymentDate"   column="payment_date"/>
         <result property="orderDate"    column="order_date"    />
         <result property="planDeliveryDate"    column="plan_delivery_date"    />
         <result property="customerCountry"    column="customer_country"    />
@@ -37,13 +39,15 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </resultMap>
 
     <sql id="selectProductSmallOrderVo">
-        select id, order_no, order_date, plan_delivery_date, customer_country, customer_name, arrival_money_percent, goods_amount_price_dollar, goods_amount_price_rmb, dollar_rmb_exchange_rate, payment_channel, payment_service_charge, alibaba_order_no, express_category, order_quality_require, order_package_require, order_delivery_date_require, order_sales_id, order_sales_name, waybill_nos, waybill_fare, create_id, create_name, create_time, update_id, update_name, update_time, remark, del_flag from product_small_order
+        select id, order_no, order_status, payment_date, order_date, plan_delivery_date, customer_country, customer_name, arrival_money_percent, goods_amount_price_dollar, goods_amount_price_rmb, dollar_rmb_exchange_rate, payment_channel, payment_service_charge, alibaba_order_no, express_category, order_quality_require, order_package_require, order_delivery_date_require, order_sales_id, order_sales_name, waybill_nos, waybill_fare, create_id, create_name, create_time, update_id, update_name, update_time, remark, del_flag from product_small_order
     </sql>
 
     <select id="selectProductSmallOrderList" parameterType="com.lingzhi.crm.order.dto.SmallOrderSearchParamsDto" resultMap="ProductSmallOrderResult">
         <include refid="selectProductSmallOrderVo"/>
         <where>  
             <if test="orderNo != null  and orderNo != ''"> and order_no = #{orderNo}</if>
+            <if test="orderStatus != null and orderStatus != ''">and order_status = #{orderStatus}</if>
+            <if test="paymentDate != null">and payment_date = #{paymentDate}</if>
             <if test="orderDate != null "> and order_date = #{orderDate}</if>
             <if test="startOrderDate != null">and order_date &gt;= #{startOrderDate}</if>
             <if test="endOrderDate != null">and order_date &lt;= #{endOrderDate}</if>
@@ -83,6 +87,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         insert into product_small_order
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="orderNo != null">order_no,</if>
+            <if test="orderStatus != null">order_status,</if>
+            <if test="paymentDate != null">payment_date,</if>
             <if test="orderDate != null">order_date,</if>
             <if test="planDeliveryDate != null">plan_delivery_date,</if>
             <if test="customerCountry != null">customer_country,</if>
@@ -113,6 +119,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
          </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="orderNo != null">#{orderNo},</if>
+            <if test="orderStatus != null">#{orderStatus},</if>
+            <if test="paymentDate != null">#{paymentDate},</if>
             <if test="orderDate != null">#{orderDate},</if>
             <if test="planDeliveryDate != null">#{planDeliveryDate},</if>
             <if test="customerCountry != null">#{customerCountry},</if>
@@ -147,6 +155,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         update product_small_order
         <trim prefix="SET" suffixOverrides=",">
             <if test="orderNo != null">order_no = #{orderNo},</if>
+            <if test="orderStatus != null">order_status = #{orderStatus},</if>
+            <if test="paymentDate != null">payment_date = {paymentDate},</if>
             <if test="orderDate != null">order_date = #{orderDate},</if>
             <if test="planDeliveryDate != null">plan_delivery_date = #{planDeliveryDate},</if>
             <if test="customerCountry != null">customer_country = #{customerCountry},</if>

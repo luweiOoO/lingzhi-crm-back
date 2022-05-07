@@ -29,6 +29,14 @@ public class ProductSmallOrder extends BaseEntity
     @Excel(name = "订单编号")
     private String orderNo;
 
+    /** 订单状态 */
+    @Excel(name = "订单状态")
+    private String orderStatus;
+
+    /** 付款日期 */
+    @Excel(name = "付款日期")
+    private Date paymentDate;
+
     /** 下单日期 */
     @JsonFormat(pattern = "yyyy-MM-dd")
     @Excel(name = "下单日期", width = 30, dateFormat = "yyyy-MM-dd")

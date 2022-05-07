@@ -16,6 +16,21 @@
           @keyup.enter.native="handleQuery"
         />
       </el-form-item>
+      <el-form-item label="订单状态" prop="orderStatus">
+        <el-select
+          v-model="queryParams.orderStatus"
+          clearable
+          placeholder="请选择订单状态"
+        >
+          <el-option
+            v-for="item in orderStatusList"
+            :key="item.dictValue"
+            :label="item.dictLabel"
+            :value="item.dictValue"
+          >
+          </el-option>
+        </el-select>
+      </el-form-item>
       <el-form-item label="业务员姓名" prop="orderSalesName">
         <el-input
           v-model="queryParams.orderSalesName"
@@ -446,12 +461,15 @@ import FileUpload from "@/components/FileUpload";
 // import RightPanel from "./components/RightPanel.vue";
 import { downLoadZip } from "@/utils/zipdownload";
 import RightPanel from "@/components/MyRightPanel/RightPanel";
+import { getDicts } from "@/api/system/dict/data";
 
 export default {
   name: "Order",
   components: { FileUpload, RightPanel},
   data() {
     return {
+      //订单状态字典
+      orderStatusList:"",
       startAndEndOrderDate: "",
       startAndEndDeliveryDate: "",
       pickerOptions: {
@@ -553,6 +571,10 @@ export default {
   },
   created() {
     this.getList();
+
+    this.getDicts("order_status").then((response) => {
+      this.orderStatusList = response.data;
+    });
   },
   watch: {
     showRight(val) {
